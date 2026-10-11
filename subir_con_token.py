@@ -22,7 +22,7 @@ PROYECTOS = [
     ("facebook", "boliviatoy-facebook", "Publicaciones automáticas para la página de BoliviaToys"),
     ("zeroscript", "zeroscript", "Panel de control para Roblox Studio (extensión)"),
     ("aivtuber", "ai-vtuber-tiktok", "VTuber automático para TikTok Live, costo cero"),
-    ("memecoins", "argos-memecoins", "Argos: detección on-chain de grupos de wallets en Solana"),
+    ("memecoins", "Argos-Memecoin-sniper", "Argos: detección on-chain de grupos de wallets en Solana"),
 ]
 
 

@@ -1,26 +1,26 @@
-# Argos — inteligencia on-chain de memecoins (Solana)
+# Argos — Memecoin sniper (Solana)
 
 Argos, el gigante de los cien ojos, no dejaba de mirar. Esto hace lo mismo con la blockchain de Solana:
-lee los lanzamientos de pump.fun, anota quién compró cada uno y a qué segundo, y con esas coincidencias
-encuentra los grupos de wallets que vienen comprando juntas desde antes de que el token sea noticia. Sin
-grupos de pago, sin listas de KOLs, sin pedirle permiso a nadie.
+lee los lanzamientos de pump.fun, registra quién compró cada uno con su monto y el segundo exacto en que
+entró, y con esas coincidencias reconstruye los grupos de wallets que vienen comprando juntas desde antes
+de que el token sea noticia. Sin grupos de pago, sin listas de KOLs y sin pedirle permiso a nadie.
 
-El circuito completo:
+El circuito:
 
-1. **Cosecha.** Cada pasada baja los lanzamientos nuevos de pump.fun y, para cada uno, la lista de
-   compradores con su monto y el segundo exacto en que entraron. Si un lanzamiento tiene 400 compradores,
-   se bajan los 400.
-2. **Agrupa.** Las wallets que coinciden en dos o más lanzamientos distintos se unen por union-find. El
-   resultado no son listas compradas: son conjuntos que aparecieron solos.
-3. **Rastrea el origen.** Para cada grupo se busca la wallet que lo fondeó y de dónde salió esa plata,
-   seis saltos hacia atrás. Con eso se separa un grupo de personas de una granja de bots con un mismo
-   pagador.
-4. **Vigila en vivo.** Un WebSocket queda suscrito a las wallets que dieron resultado. Cuando una compra,
-   el aviso sale en segundos, no en la pasada siguiente.
-5. **Mide.** Cada aviso se evalúa después: el FDV del momento contra el pico que vino. Los grupos se
-   ordenan por resultado real, no por promesa.
-6. **Controla.** En paralelo corre un test con tokens frescos al azar, medidos exactamente igual. Si el
-   sistema no le gana al azar, no sirve, y eso tiene que poder verse.
+1. **Cosecha.** Cada pasada baja los lanzamientos nuevos de pump.fun y hasta 40 compradores por
+   lanzamiento, con monto y timestamp. Más compradores son más parejas posibles, así que los grupos
+   aparecen antes.
+2. **Agrupa.** Para cada token se buscan las wallets que compraron dentro de una ventana de co-compra de
+   300 segundos. Un par de wallets se une recién cuando coincide en **dos lanzamientos distintos**; el
+   agrupamiento se resuelve con union-find con compresión de caminos.
+3. **Rastrea el origen.** De cada grupo se sigue el fondeo seis saltos hacia atrás hasta la wallet que
+   pagó. Ahí se separa un grupo de personas de una granja con un mismo pagador.
+4. **Vigila en vivo.** Un WebSocket con `logsSubscribe` filtrado por `mentions` del mint detecta la ráfaga
+   en el bloque en que ocurre: la ventana es de 150 segundos y avisa con 2 wallets de 0,1 SOL o más.
+5. **Mide.** Cada aviso se evalúa contra las velas posteriores: FDV al momento del aviso contra el pico
+   posterior, con una ventana de seguimiento de 6 horas.
+6. **Controla.** En paralelo corre un test con tokens frescos al azar, con la misma ventana y la misma
+   vara. Si el sistema no le gana al azar, no sirve, y eso tiene que poder verse.
 
 Solo informa. No opera, no mueve fondos y no pide claves privadas. Los datos y las claves quedan fuera del
 repositorio.
@@ -32,14 +32,40 @@ las que coincidieron en ese mismo token y en otro distinto. Treinta líneas, y n
 
 <img src="img/codigo.png" alt="la clase Unión, el union-find que arma los grupos, en cohortes.py" width="100%">
 
-Lo interesante no es la estructura de datos, es el criterio. **Una coincidencia no alcanza**: dos wallets
-comprando el mismo token pueden ser casualidad, o dos bots del mismo dueño. Se exigen dos lanzamientos
-distintos como mínimo, y cuanto más raro es el token, más pesa la coincidencia. Coincidir donde compraron
-cuarenta personas no dice nada; coincidir donde compraron tres, dice casi todo.
+Lo que decide todo no es la estructura de datos, son los umbrales:
+
+| parámetro | valor | por qué |
+|---|---|---|
+| ventana de co-compra | 300 s | más ancha, más parejas; demasiado ancha y junta compras sin relación |
+| coincidencias mínimas | 2 lanzamientos | **este número no se baja**: una coincidencia es casualidad |
+| compradores leídos | 40 por lanzamiento | más parejas por token, grupos que aparecen antes |
+| monto mínimo por comprador | 0,1 SOL | por debajo es polvo y ensucia el grafo |
+| cohorte mínima | 2 wallets | primero aparecen los dúos y después se van agrandando |
+
+Coincidir donde compraron cuarenta personas no dice nada. Coincidir donde compraron tres, dice casi todo.
 
 Después viene la parte que casi nadie hace: **de dónde salió la plata**. Se sigue el fondeo seis saltos
 atrás hasta dar con la wallet que pagó, y ahí se cae la máscara: dos grupos que parecían independientes
 suelen terminar con el mismo pagador, y lo que parecía una comunidad es una granja con varios sombreros.
+
+## Cómo está construido
+
+Todo con librería estándar de Python y APIs públicas. Cero tokens de LLM: son reglas explícitas.
+
+- **Lectura on-chain.** `getSignaturesForAddress` y `getTransaction` con `encoding: jsonParsed` sobre RPC
+  público, con paginado y caché. La forense profunda se resolvió en **una sola pasada** por wallet: bajar
+  cada transacción dos veces (una para flujos, otra para tokens) hacía que una wallet de mil transacciones
+  no terminara nunca.
+- **Tiempo real.** `logsSubscribe` con `mentions: [mint]` sobre WebSocket, con ping cada 20 segundos. La
+  ráfaga se detecta en el bloque en que pasa, no en la pasada siguiente.
+- **Escritura concurrente.** El estado lo escriben cuatro procesos (radar cada 5 minutos, patrulla cada 3,
+  muestreo cada 5, comandos cada minuto). El truco de escribir a un temporal y renombrar **no alcanza**:
+  el problema es el ciclo completo de leer, modificar y guardar, así que se serializa con `flock` y los
+  temporales llevan el pid en el nombre.
+- **Cupo de la API.** Cada corrida anota cuánto gastó, así el consumo se mide desde adentro y no desde el
+  panel del proveedor. Las claves viven fuera del repositorio y el tope diario está declarado en el código.
+- **Discord.** El envío se verifica releyendo el canal: un 200 del POST no prueba que el mensaje haya
+  quedado donde el usuario lo ve.
 
 ## Qué encontró
 
@@ -63,8 +89,8 @@ Esta sección va antes de la estructura a propósito. Todo medido, nada estimado
 
 Un sistema que se autoevalúa tiene que decir con qué vara mide:
 
-- **FDV del momento contra el pico posterior.** La misma cuenta que hace Rick con `/ga`: sirve para saber
-  si hubo profit después del aviso, no para decorar un canal.
+- **FDV del momento contra el pico posterior**, sobre una ventana de 6 horas. La misma cuenta que hace
+  Rick con `/ga`: sirve para saber si hubo profit después del aviso, no para decorar un canal.
 - **Mediana antes que promedio.** Un 24x perdido entre veinte fracasos mueve el promedio y no cambia nada
   de lo que pasó. La mediana sí.
 - **Puntaje por percentil del día**, no por suma acumulada: el ranking se autocalibra cuando el mercado
@@ -98,8 +124,8 @@ Vigilancia en vivo:
 
 | archivo | qué hace |
 |---|---|
-| `vigilante_calls.py` | WebSocket: detecta la ráfaga de compras en segundos |
-| `vigilante_copiable.py` | avisa apenas una wallet que sirve compra algo |
+| `vigilante_calls.py` | WebSocket con `logsSubscribe`: detecta la ráfaga en el bloque en que pasa |
+| `vigilante_copiable.py` | avisa apenas una wallet que sirve compra algo, con tope de avisos por hora |
 | `calls_detector.py` | detector de ráfagas para el radar |
 
 Medición:
@@ -109,7 +135,7 @@ Medición:
 | `registro_calls.py` | guarda cada aviso y lo evalúa después, para recalibrar con datos reales |
 | `control_test.py` | el test de control contra tokens al azar |
 | `tabla_calls.py` | la tabla de resultados, la misma cuenta que hace Rick con `/ga` |
-| `consumo.py` | cuánto cupo de Helius se gastó y cuánto queda, sin abrir el panel |
+| `consumo.py` | cuánto cupo se gastó y cuánto queda, medido desde adentro |
 
 Discord e infraestructura:
 
@@ -117,7 +143,7 @@ Discord e infraestructura:
 |---|---|
 | `comando_discord.py` | los comandos de chat del sistema |
 | `canal_wallets.py` | escucha el canal de auditoría y contesta solo |
-| `jsonio.py` | escritura atómica de JSON, segura entre procesos: dos cron a la vez no se pisan |
+| `jsonio.py` | escritura serializada con `flock`: cuatro procesos escribiendo el mismo estado sin pisarse |
 | `NOTAS.md` | todo lo medido, incluidas las cosas que no funcionaron |
 
 ## Reglas que no se negocian
@@ -126,14 +152,14 @@ Salieron de errores reales, no de manuales:
 
 - **Mil transacciones y treinta posiciones cerradas** antes de puntuar una wallet. La ventana corta miente,
   siempre.
+- **Dos coincidencias o no hay grupo.** El umbral no se baja ni para tener más señales.
 - **Volumen de 24 h menor a 500 USD descalifica** un token, por linda que sea su liquidez: no hay a quién
   venderle.
 - **La primera pasada de una wallet nueva es línea base.** Se anotan sus firmas sin avisar. Sin eso se
   publican diez avisos de historial viejo y el canal se vuelve ruido.
 - **Filtro de polvo obligatorio.** Las wallets reciben micro-transferencias constantes de 0,000005 SOL.
   Sin exigir un movimiento mínimo, el tracker llena el canal de avisos que no significan nada.
-- **Una coincidencia no es un grupo, y un pico no es un resultado.** Las dos reglas que sostienen todo lo
-  demás.
+- **Un pico no es un resultado.** La mediana decide, el máximo decora.
 
 ## Licencia
 

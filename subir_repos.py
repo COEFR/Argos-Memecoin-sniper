@@ -18,7 +18,7 @@ PROYECTOS = [
     ("facebook", "boliviatoy-facebook"),
     ("zeroscript", "zeroscript"),
     ("aivtuber", "ai-vtuber-tiktok"),
-    ("memecoins", "argos-memecoins"),
+    ("memecoins", "Argos-Memecoin-sniper"),
 ]
 
 
