@@ -1,0 +1,46 @@
+{
+ "generado": "2026-10-07T15:18:39+00:00",
+ "contexto": {
+  "WSOS": {
+   "recibieron_gratis": 17,
+   "vendieron_en_pool": 1,
+   "cruces": 0
+  },
+  "WOSE": {
+   "recibieron_gratis": 214,
+   "vendieron_en_pool": 5,
+   "cruces": 0
+  },
+  "PAID": {
+   "recibieron_gratis": 387,
+   "vendieron_en_pool": 10,
+   "cruces": 0
+  },
+  "ConConAI": {
+   "recibieron_gratis": 1,
+   "vendieron_en_pool": 10,
+   "cruces": 0
+  },
+  "USDF": {
+   "recibieron_gratis": 361,
+   "vendieron_en_pool": 10,
+   "cruces": 0
+  },
+  "DARK": {
+   "recibieron_gratis": 373,
+   "vendieron_en_pool": 10,
+   "cruces": 0
+  },
+  "FOMO": {
+   "recibieron_gratis": 374,
+   "vendieron_en_pool": 10,
+   "cruces": 0
+  },
+  "EVERYTHING": {
+   "recibieron_gratis": 2,
+   "vendieron_en_pool": 15,
+   "cruces": 0
+  }
+ },
+ "hits": []
+}

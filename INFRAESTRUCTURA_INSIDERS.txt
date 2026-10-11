@@ -1,0 +1,66 @@
+MAPA DE LA INFRAESTRUCTURA DE INSIDERS — investigación propia (07/10/2026)
+Sin listas públicas: todo sacado de la cadena, partiendo de tokens que despegaron.
+
+======================================================================
+QUÉ ENCONTRÉ (y por qué no hay 7 wallets de insiders "de trader")
+======================================================================
+
+Investigué por 5 caminos y todos apuntan al mismo lugar: en este ecosistema el
+insider NO es un trader con información privilegiada — es una MÁQUINA DE REPARTO
+con wallets nuevas por lanzamiento.
+
+1) COMPRAS EN EL SLOT DE CREACIÓN (bundle): NO hay. En los tokens del radar que
+   despegaron la compra del arranque es una sola (el dev buy de 0,2-0,5 SOL = <1%
+   del supply). Ningún bundle de 3+ compras en el slot de creación.
+
+2) RECEPTORES SIN PAGAR: hay MILES (WSOS 562 · TDF 461 · FOMO 741 · OURA 482 ·
+   DARK 372 · USDF 354 · SID 217...) y son CÁSCARAS: 0 posiciones cerradas y
+   0,002-0,01 SOL de saldo. Reciben y nunca operan.
+
+3) EL CRUCE "recibió gratis -> vendió en el pico": VACÍO. Los que reciben no venden
+   (cáscaras) y los que venden habían comprado.
+
+4) LOS CREADORES: wallets FRESCAS Y DESECHABLES. Todos con "tokens previos: 0",
+   sin historial de trading (SIN DATOS). Cada lanzamiento estrena wallet.
+
+5) LOS DISTRIBUIDORES (el que reparte los tokens): acá está la huella. Un solo
+   remitente por token que crea cuentas de token y reparte a cientos de wallets:
+
+   CiGGtPSvs8UR6AhebdmvF5mfDtCGVtMCBJANFZhXo5qY  -> 372 wallets (DARK)
+   7dKJmcLEfnNKhQGtgn3QEGZB9ReHMd4Lbk8Cvu1dmFQA  -> 354 wallets (USDF)
+   6jvFjWGZnRfXR3saMGHEs61pDwEEhhoz4s3xaDrEozWc  -> 339 wallets (FOMO)
+
+   LOS TRES TIENEN EXACTAMENTE **7,381 SOL** de saldo y 1.443 tx cada uno.
+   Mismo monto exacto + wallet nueva por lanzamiento + reparto masivo = **un solo
+   operador (servicio de lanzamiento)** que genera una wallet por token, la fondea
+   con 7,381 SOL y desde ahí crea el token y lo airdropea a ~350 wallets.
+
+======================================================================
+PARA QUÉ SIRVE ESTO (lo aprovechable ya)
+======================================================================
+
+🚩 FILTRO DE ALERTA ROJA para el radar, ya medible:
+   Si un token fue lanzado por una wallet que (a) es nueva, (b) tiene ~7,381 SOL
+   exactos y (c) repartió tokens a cientos de wallets en las primeras horas
+   -> es un lanzamiento de REPARTO MASIVO (no una comunidad real).
+   Los tokens con ese patrón son los que colapsan: el reparto va a cáscaras que
+   nunca compran, o sea que no hay demanda orgánica detrás.
+
+🎯 LA WALLET QUE SÍ VALE SEGUIR (hay que encontrarla): el PADRE que fondea esas
+   wallets de 7,381 SOL. Es el operador: cuando fondea una wallet nueva, **está por
+   lanzar un token**. Es el único aviso genuinamente temprano de todo el ecosistema.
+   Pendiente: llegar al padre (las primeras tx de esas wallets ya son creaciones de
+   cuentas de token, así que el fondeo no aparece en su historial indexado —
+   hay que buscarlo en las tx de creación del token, no en las del lanzador).
+
+======================================================================
+LO QUE NO PUDE (y por qué, honesto)
+======================================================================
+- 7 wallets de insiders que valga la pena seguir por descubrimiento propio: NO
+  existen en esta muestra. El "insider" acá es infraestructura (lanzadores
+  desechables + repartidores), no un trader con información privilegiada.
+- Los únicos con comportamiento privilegiado VERIFICABLE y ganancia (reciben
+  tokens sin comprar y venden con 100% de aciertos) son los 3 "VENTAJEROS" que ya
+  están en LISTA_CON_NOMBRES.txt, que salieron de la red de la wallet 6nU2L7MQ.
+- Cupo Helius: ~90% del mes consumido. Para seguir con este nivel de profundidad
+  hace falta esperar el reinicio mensual o pasar al plan pago (~49 USD).

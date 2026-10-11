@@ -1,0 +1,308 @@
+{
+  "generado": "2026-10-06T14:09:27+00:00",
+  "tokens_revisados": [
+    "D O T ",
+    "VSOF",
+    "WSOS",
+    "XRPN",
+    "DOTF",
+    "UDR",
+    "SARP",
+    "USDF",
+    "GOIF",
+    "USDP",
+    "ATFS",
+    "IOF",
+    "IOF",
+    "USDF",
+    "XRPN",
+    "WOTF",
+    "HIGGS",
+    "D O T ",
+    "XBC",
+    "UDR",
+    "AROS",
+    "USDF",
+    "OURA",
+    "GOIF",
+    "WAIF",
+    "WOTF",
+    "USDF",
+    "ADTF",
+    "AROS",
+    "GOIF",
+    "WAIF",
+    "VWA",
+    "XRPN",
+    "USDF",
+    "NTDA",
+    "DAWS",
+    "AORP",
+    "Frogodile",
+    "DOTF",
+    "WOTF"
+  ],
+  "wallets": [
+    {
+      "wallet": "CKJgjZ3U6CtbXbzWUd9MYfWuu9rVPsAo7BqgZGXwr3J4",
+      "tx_vistas": 3,
+      "tokens_operados": 1,
+      "cerradas": 1,
+      "abiertas": 0,
+      "pnl_neto_sol": 0.7668,
+      "invertido_sol": 0.0,
+      "roi_total": null,
+      "win_rate": 100.0,
+      "mejor": 0.7668,
+      "peor": 0.7668,
+      "roi_mediano": null,
+      "min_tenencia_mediano": null,
+      "pct_regalados": 0,
+      "posiciones_sin_compra": 1,
+      "pct_sin_compra": 100.0,
+      "alerta": "recibió tokens en vez de comprarlos (patrón bundle/insider)",
+      "detalle_cerradas": [
+        {
+          "mint": "fSK8y3f3Hz1mTeSYap6FeqhZ8ResekAAuhZYddnpump",
+          "pnl": 0.766769417,
+          "roi": null,
+          "compras": 0,
+          "ventas": 1,
+          "sol_in": 0.0,
+          "sol_out": 0.766769417,
+          "min": 0.0,
+          "regalados": 0
+        }
+      ],
+      "aparece_en": 2,
+      "tokens_vistos": [
+        "WOTF",
+        "GOIF"
+      ],
+      "puntaje": -5.7
+    },
+    {
+      "wallet": "G3HjzytuxoynPsvBKphgpKdsnm6FK6V2HbZ4y9GpFmM3",
+      "tx_vistas": 3,
+      "tokens_operados": 1,
+      "cerradas": 1,
+      "abiertas": 0,
+      "pnl_neto_sol": 0.4397,
+      "invertido_sol": 0.0,
+      "roi_total": null,
+      "win_rate": 100.0,
+      "mejor": 0.4397,
+      "peor": 0.4397,
+      "roi_mediano": null,
+      "min_tenencia_mediano": null,
+      "pct_regalados": 0,
+      "posiciones_sin_compra": 1,
+      "pct_sin_compra": 100.0,
+      "alerta": "recibió tokens en vez de comprarlos (patrón bundle/insider)",
+      "detalle_cerradas": [
+        {
+          "mint": "tSSWfF91bE9f2VgfAAyZ3bqqB9EXkQk2oKj4Ko4pump",
+          "pnl": 0.439691345,
+          "roi": null,
+          "compras": 0,
+          "ventas": 1,
+          "sol_in": 0.0,
+          "sol_out": 0.439691345,
+          "min": 0.0,
+          "regalados": 0
+        }
+      ],
+      "aparece_en": 3,
+      "tokens_vistos": [
+        "AROS",
+        "WAIF",
+        "DOTF"
+      ],
+      "puntaje": -6.1
+    },
+    {
+      "wallet": "Fe9A5NdLoRtGLFkybbbEez3ArMUjHhsoW9VMZ8ejgzeJ",
+      "tx_vistas": 3,
+      "tokens_operados": 1,
+      "cerradas": 1,
+      "abiertas": 0,
+      "pnl_neto_sol": 0.3028,
+      "invertido_sol": 0.0,
+      "roi_total": null,
+      "win_rate": 100.0,
+      "mejor": 0.3028,
+      "peor": 0.3028,
+      "roi_mediano": null,
+      "min_tenencia_mediano": null,
+      "pct_regalados": 0,
+      "posiciones_sin_compra": 1,
+      "pct_sin_compra": 100.0,
+      "alerta": "recibió tokens en vez de comprarlos (patrón bundle/insider)",
+      "detalle_cerradas": [
+        {
+          "mint": "tSSWfF91bE9f2VgfAAyZ3bqqB9EXkQk2oKj4Ko4pump",
+          "pnl": 0.302816197,
+          "roi": null,
+          "compras": 0,
+          "ventas": 1,
+          "sol_in": 0.0,
+          "sol_out": 0.302816197,
+          "min": 0.0,
+          "regalados": 0
+        }
+      ],
+      "aparece_en": 2,
+      "tokens_vistos": [
+        "AROS",
+        "WAIF"
+      ],
+      "puntaje": -6.2
+    },
+    {
+      "wallet": "9YaLRCibnsGUagr5c7FNFLCCxTyYt7LgUMxD8AH7XCkA",
+      "tx_vistas": 69,
+      "tokens_operados": 2,
+      "cerradas": 2,
+      "abiertas": 0,
+      "pnl_neto_sol": -67.5691,
+      "invertido_sol": 91.0903,
+      "roi_total": -74.2,
+      "win_rate": 0.0,
+      "mejor": -30.1144,
+      "peor": -37.4547,
+      "roi_mediano": -74.0,
+      "min_tenencia_mediano": 17.9,
+      "pct_regalados": 0.0,
+      "posiciones_sin_compra": 0,
+      "pct_sin_compra": 0.0,
+      "alerta": "",
+      "detalle_cerradas": [
+        {
+          "mint": "PUXx1iSexu15p8FLG4FoFyRpyVtARFEf6CYbUzopump",
+          "pnl": -30.11444361599999,
+          "roi": -70.21323554397544,
+          "compras": 24,
+          "ventas": 10,
+          "sol_in": 42.88998132999999,
+          "sol_out": 12.775537714,
+          "min": 17.766666666666666,
+          "regalados": 0
+        },
+        {
+          "mint": "12kcwsDTSpvanYqxDLfKcotfPApvDXpdyB7bzPVFpump",
+          "pnl": -37.45469829300001,
+          "roi": -77.70638525382346,
+          "compras": 27,
+          "ventas": 8,
+          "sol_in": 48.20028389000001,
+          "sol_out": 10.745585597,
+          "min": 18.016666666666666,
+          "regalados": 0
+        }
+      ],
+      "aparece_en": 4,
+      "tokens_vistos": [
+        "DOTF",
+        "UDR",
+        "SARP",
+        "IOF"
+      ],
+      "puntaje": -123.7
+    },
+    {
+      "wallet": "BQ118bsLZPwXa6Za8aYrpnKHn8F6f3wotUG2jgALXzeV",
+      "tx_vistas": 70,
+      "tokens_operados": 2,
+      "cerradas": 2,
+      "abiertas": 0,
+      "pnl_neto_sol": -71.266,
+      "invertido_sol": 93.3564,
+      "roi_total": -76.3,
+      "win_rate": 0.0,
+      "mejor": -34.7178,
+      "peor": -36.5482,
+      "roi_mediano": -76.3,
+      "min_tenencia_mediano": 18.3,
+      "pct_regalados": 0.0,
+      "posiciones_sin_compra": 0,
+      "pct_sin_compra": 0.0,
+      "alerta": "",
+      "detalle_cerradas": [
+        {
+          "mint": "12kcwsDTSpvanYqxDLfKcotfPApvDXpdyB7bzPVFpump",
+          "pnl": -34.71781184,
+          "roi": -75.94990269865508,
+          "compras": 25,
+          "ventas": 9,
+          "sol_in": 45.711463223,
+          "sol_out": 10.993651383,
+          "min": 18.533333333333335,
+          "regalados": 0
+        },
+        {
+          "mint": "PUXx1iSexu15p8FLG4FoFyRpyVtARFEf6CYbUzopump",
+          "pnl": -36.54815189599999,
+          "roi": -76.70942527360351,
+          "compras": 27,
+          "ventas": 9,
+          "sol_in": 47.644929897,
+          "sol_out": 11.096778001,
+          "min": 18.016666666666666,
+          "regalados": 0
+        }
+      ],
+      "aparece_en": 4,
+      "tokens_vistos": [
+        "DOTF",
+        "UDR",
+        "SARP",
+        "IOF"
+      ],
+      "puntaje": -127.7
+    },
+    {
+      "wallet": "66H1Sa89j4hehTPRUC4y58WNbDHpj3VCZRck552UzNYs",
+      "cerradas": 0,
+      "nota": "sin posiciones cerradas en la ventana",
+      "aparece_en": 2,
+      "tokens_vistos": [
+        "AROS",
+        "WAIF"
+      ],
+      "puntaje": -999
+    },
+    {
+      "wallet": "AaFWWCSyFcRTheLjaVZ95Ec6i9CWgJpCTHpM3H2e1ha2",
+      "cerradas": 0,
+      "nota": "sin posiciones cerradas en la ventana",
+      "aparece_en": 2,
+      "tokens_vistos": [
+        "AROS",
+        "WAIF"
+      ],
+      "puntaje": -999
+    },
+    {
+      "wallet": "3SQC6tFMs6pBS2UxC1A92UvqfDPiXsQbRZdWycLW9QWM",
+      "cerradas": 0,
+      "nota": "sin posiciones cerradas en la ventana",
+      "aparece_en": 2,
+      "tokens_vistos": [
+        "AROS",
+        "WAIF"
+      ],
+      "puntaje": -999
+    },
+    {
+      "wallet": "CXxYeKdyjKtPhMxvt3QXKPq7BQowx5wemRzmZVB29hNx",
+      "cerradas": 0,
+      "nota": "sin posiciones cerradas en la ventana",
+      "aparece_en": 2,
+      "tokens_vistos": [
+        "AROS",
+        "WAIF"
+      ],
+      "puntaje": -999
+    }
+  ]
+}

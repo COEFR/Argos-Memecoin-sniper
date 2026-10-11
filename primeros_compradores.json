@@ -1,0 +1,76 @@
+{
+  "generado": "2026-10-06T14:54:55+00:00",
+  "tokens": [
+    "D O T ",
+    "VSOF",
+    "WSOS",
+    "DOTF",
+    "UDR"
+  ],
+  "wallets": [
+    {
+      "wallet": "DkNsC93UQdPStqHp6vZhcjDEK32Eb42Ft2ZT6Qa4mkMz",
+      "emoji": "❓",
+      "tipo": "PRIMISO",
+      "razon": "entró primero en un solo token: puede ser suerte",
+      "veces": 1,
+      "tokens": [
+        "VSOF"
+      ],
+      "seg_mediano": 0.0,
+      "pos_mediana": 1,
+      "sol_total": 86.08,
+      "fondeo": [],
+      "sin_compra": null,
+      "pnl": null
+    },
+    {
+      "wallet": "5m5HGkQpWYBshsanfTXsRcNWPuzbF7WTjm1KFyiV2Z2y",
+      "emoji": "❓",
+      "tipo": "PRIMISO",
+      "razon": "entró primero en un solo token: puede ser suerte",
+      "veces": 1,
+      "tokens": [
+        "WSOS"
+      ],
+      "seg_mediano": 0.0,
+      "pos_mediana": 1,
+      "sol_total": 86.08,
+      "fondeo": [],
+      "sin_compra": null,
+      "pnl": null
+    },
+    {
+      "wallet": "ETrVsHnxk9Gsd9kq38Ac3XdYf5LfEjnoHRruyCRfjKqr",
+      "emoji": "❓",
+      "tipo": "PRIMISO",
+      "razon": "entró primero en un solo token: puede ser suerte",
+      "veces": 1,
+      "tokens": [
+        "DOTF"
+      ],
+      "seg_mediano": 0.0,
+      "pos_mediana": 1,
+      "sol_total": 86.08,
+      "fondeo": [],
+      "sin_compra": null,
+      "pnl": null
+    },
+    {
+      "wallet": "GbgNw5kkBkCEBC6zFD8PwbNGPJfrMbt427iKJ2Py2fC7",
+      "emoji": "❓",
+      "tipo": "PRIMISO",
+      "razon": "entró primero en un solo token: puede ser suerte",
+      "veces": 1,
+      "tokens": [
+        "UDR"
+      ],
+      "seg_mediano": 0.0,
+      "pos_mediana": 1,
+      "sol_total": 86.08,
+      "fondeo": [],
+      "sin_compra": null,
+      "pnl": null
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "borradas": [
+    {
+      "address": "5Q544fKrFoe6tsEbD7S8EmxGTJYAKtTVhAW5Q5pge4j1",
+      "etiqueta": "candidata-1-sin-verificar",
+      "agregada": "2026-10-06T06:52:43+00:00"
+    },
+    {
+      "address": "AxtZoNYhAxvpv416hW7yzpTdcJeY45t8JyGUYMJXL9G",
+      "etiqueta": "candidata-2-sin-verificar",
+      "agregada": "2026-10-06T06:52:43+00:00"
+    },
+    {
+      "address": "G3HjzytuxoynPsvBKphgpKdsnm6FK6V2HbZ4y9GpFmM3",
+      "etiqueta": "⚠️INSIDER-auditado (recibe tokens, no compra)",
+      "agregada": "2026-10-06T06:52:44+00:00",
+      "nota": "Auditoría 2026-10-06: 100% de posiciones cerradas sin compra previa = bundle/insider"
+    },
+    {
+      "address": "Fe9A5NdLoRtGLFkybbbEez3ArMUjHhsoW9VMZ8ejgzeJ",
+      "etiqueta": "🚨INSIDER",
+      "agregada": "2026-10-06T14:31:00+00:00"
+    },
+    {
+      "address": "CKJgjZ3U6CtbXbzWUd9MYfWuu9rVPsAo7BqgZGXwr3J4",
+      "etiqueta": "🚨INSIDER",
+      "agregada": "2026-10-06T14:31:00+00:00"
+    },
+    {
+      "address": "3vdNNVsvCT4k4QcLxXizk2RNz65JjHpyfTB8RFy4T44c",
+      "etiqueta": "⭐1-GOLPE (100% del PnL en 1 trade, fondeo 1884 SOL)",
+      "agregada": "2026-10-06T15:05:33+00:00",
+      "nota": "Auditoría 2026-10-06: +1729 SOL en UN trade de 11 min contra 2 pérdidas (-13.8). Concentración 100% → un solo golpe, no consistencia. Fondeo fresco de 1884 SOL."
+    }
+  ],
+  "fecha": "2026-10-06"
+}

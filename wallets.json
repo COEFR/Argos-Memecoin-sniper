@@ -1,0 +1,29 @@
+{
+  "wallets": [
+    {
+      "address": "BPne9CMUQ79MLsyzx7b4kH1KPsSQHfBaSmfpBVQfkjHq",
+      "etiqueta": "⭐SIGNAL +137SOL 68ops compra-en-arranque",
+      "agregada": "2026-10-07T15:41:23+00:00"
+    },
+    {
+      "address": "CQKJHYqVPn8P944dpQtNud5eVLQr4p8iFuKSVNgKYNxY",
+      "etiqueta": "⭐SIGNAL +245SOL t2.79 hold3.5min",
+      "agregada": "2026-10-07T15:41:23+00:00"
+    },
+    {
+      "address": "B9kJYdzb4gB9AC3aFChReDhJ2D5YDCaR4UrEoen2NcyC",
+      "etiqueta": "⭐SIGNAL +88SOL anti-suerte-OK 168SOL-saldo",
+      "agregada": "2026-10-07T15:41:23+00:00"
+    },
+    {
+      "address": "4suu2qBGieLQii6Hm1BeQEHA1vHdeHJd9c7qcvejxs46",
+      "etiqueta": "🚨DUMP-DETECTOR +36SOL 67%-sin-comprar",
+      "agregada": "2026-10-07T15:41:23+00:00"
+    },
+    {
+      "address": "DSk4pb9ZKXp89zqQJ52ReUemvrzvyQrQsXxwgTT1fWeh",
+      "etiqueta": "🚨DUMP-DETECTOR +6.4SOL 67%-sin-comprar",
+      "agregada": "2026-10-07T15:41:23+00:00"
+    }
+  ]
+}

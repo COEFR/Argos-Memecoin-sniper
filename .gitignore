@@ -1,0 +1,28 @@
+# generado por publicar_proyectos.py — lo que NO debe subirse
+.env
+.env.*
+*.token
+.token*
+token*
+logs/
+*.log
+__pycache__/
+*.pyc
+node_modules/
+cache/
+*.tmp
+.DS_Store
+# llaves y material privado (comprobado: GitHub bloquea el push si se cuelan)
+migracion/
+*llave*
+id_rsa*
+id_ed25519*
+*.pem
+*.key
+*.crt
+*.ppk
+*.json
+*.jsonl
+*.db
+*.sqlite
+calls_historial.*

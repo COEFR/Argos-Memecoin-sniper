@@ -1,0 +1,167 @@
+[
+ {
+  "wallet": "5Dx8dhAAmA1BqP5Us7gu6vh5YgwLeWJENmJY4GBuwyLA",
+  "etiqueta": {
+   "emoji": "🚨",
+   "tipo": "INSIDER",
+   "razon": "100% de sus posiciones las cobró SIN haber comprado (tokens recibidos de un bundle) · win rate 100%"
+  },
+  "cerradas": 1,
+  "pnl": 81.7547,
+  "win_rate": 100.0,
+  "roi": null,
+  "hold": null,
+  "sin_compra": 100.0,
+  "t": null,
+  "detalle": [
+   {
+    "mint": "E6vtwCUtcNJdQEPGY8vWKahtu2sfwxQ4j68pUKm7pump",
+    "pnl": 81.754662261,
+    "roi": null,
+    "compras": 0,
+    "ventas": 2,
+    "sol_in": 0.0,
+    "sol_out": 81.754662261,
+    "min": 0.0,
+    "regalados": 1,
+    "horas": [
+     7
+    ]
+   }
+  ],
+  "saldo_sol": 0.001,
+  "ultimo_mov": 1791356577,
+  "tokens": [],
+  "fondeo": []
+ },
+ {
+  "wallet": "138WAvnoKNFGjfsBaw7o54tksjiGzv8HN3w9PukzAUrF",
+  "etiqueta": {
+   "emoji": "❓",
+   "tipo": "SIN DATOS",
+   "razon": "no tiene operaciones cerradas en la ventana revisada"
+  },
+  "cerradas": 0,
+  "pnl": null,
+  "win_rate": null,
+  "roi": null,
+  "hold": null,
+  "sin_compra": null,
+  "t": null,
+  "detalle": [],
+  "saldo_sol": 0.0,
+  "ultimo_mov": 1791359919,
+  "tokens": [],
+  "fondeo": [
+   "5xmvxWANQ91Bh8d1A1izruAMLZmtarpURN66Cucoy4qW"
+  ]
+ },
+ {
+  "wallet": "3N2eJ2KxB88WXvqECwDHzBmQC3ANcg1W58emaqRbPoSD",
+  "etiqueta": {
+   "emoji": "❓",
+   "tipo": "SIN DATOS",
+   "razon": "no tiene operaciones cerradas en la ventana revisada"
+  },
+  "cerradas": 0,
+  "pnl": null,
+  "win_rate": null,
+  "roi": null,
+  "hold": null,
+  "sin_compra": null,
+  "t": null,
+  "detalle": [],
+  "saldo_sol": 0.0,
+  "ultimo_mov": 1791359917,
+  "tokens": [],
+  "fondeo": [
+   "5xmvxWANQ91Bh8d1A1izruAMLZmtarpURN66Cucoy4qW"
+  ]
+ },
+ {
+  "wallet": "5b7vjzEDWs3HXPCmcqzU49sDmGX6FhZhs9145jEDbuUg",
+  "etiqueta": {
+   "emoji": "❓",
+   "tipo": "SIN DATOS",
+   "razon": "no tiene operaciones cerradas en la ventana revisada"
+  },
+  "cerradas": 0,
+  "pnl": null,
+  "win_rate": null,
+  "roi": null,
+  "hold": null,
+  "sin_compra": null,
+  "t": null,
+  "detalle": [],
+  "saldo_sol": 0.0,
+  "ultimo_mov": 1791359915,
+  "tokens": [],
+  "fondeo": [
+   "5xmvxWANQ91Bh8d1A1izruAMLZmtarpURN66Cucoy4qW"
+  ]
+ },
+ {
+  "wallet": "8wrHm8a8FXtga6sp4Pmdze3Dw87Eenn3thEdTJfRdDqW",
+  "etiqueta": {
+   "emoji": "❓",
+   "tipo": "SIN DATOS",
+   "razon": "no tiene operaciones cerradas en la ventana revisada"
+  },
+  "cerradas": 0,
+  "pnl": null,
+  "win_rate": null,
+  "roi": null,
+  "hold": null,
+  "sin_compra": null,
+  "t": null,
+  "detalle": [],
+  "saldo_sol": 0.0,
+  "ultimo_mov": 1791359910,
+  "tokens": [],
+  "fondeo": [
+   "5xmvxWANQ91Bh8d1A1izruAMLZmtarpURN66Cucoy4qW"
+  ]
+ },
+ {
+  "wallet": "ANq8riyPPEwUfkeXhFkqvELMAqTaQQoq89Tjv9mmMGCj",
+  "etiqueta": {
+   "emoji": "❓",
+   "tipo": "SIN DATOS",
+   "razon": "no tiene operaciones cerradas en la ventana revisada"
+  },
+  "cerradas": 0,
+  "pnl": null,
+  "win_rate": null,
+  "roi": null,
+  "hold": null,
+  "sin_compra": null,
+  "t": null,
+  "detalle": [],
+  "saldo_sol": 0.0,
+  "ultimo_mov": 1791359911,
+  "tokens": [],
+  "fondeo": [
+   "5xmvxWANQ91Bh8d1A1izruAMLZmtarpURN66Cucoy4qW"
+  ]
+ },
+ {
+  "wallet": "B7xw5bdPbdgnxHonTZQCDn7Cg6AyKcKXhm5czVjfA5Wg",
+  "etiqueta": {
+   "emoji": "❓",
+   "tipo": "SIN DATOS",
+   "razon": "no tiene operaciones cerradas en la ventana revisada"
+  },
+  "cerradas": 0,
+  "pnl": null,
+  "win_rate": null,
+  "roi": null,
+  "hold": null,
+  "sin_compra": null,
+  "t": null,
+  "detalle": [],
+  "saldo_sol": 0.0,
+  "ultimo_mov": 1791359918,
+  "tokens": [],
+  "fondeo": []
+ }
+]

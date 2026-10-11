@@ -1,0 +1,108 @@
+LISTA DE WALLETS CON NOMBRE (para identificar de un vistazo)
+Generado: 07/10/2026 · todas verificadas de punta a punta con el motor propio
+(lee la cadena, no la etiqueta: PnL reconstruido, test "sin tus 3 mejores trades",
+% de posiciones sin comprar, hold real, filtro de polvo y de bots)
+
+======================================================================
+A) LAS QUE SIRVEN PARA AVISOS (ganan de verdad)
+======================================================================
+
+1) 🔬 EL ESTADÍSTICO
+   CQKJHYqVPn8P944dpQtNud5eVLQr4p8iFuKSVNgKYNxY
+   24 cerradas · +245,18 SOL · wr 79,2% · ROI 171% · hold 3,5 min
+   t 2,79 (SIGNIFICATIVO) · sin sus 3 mejores: +101,40 SOL · 21% sin comprar
+   ORIGEN: lista pública (GMGN smart money) verificada por nosotros.
+   POR QUÉ: es la única del día con ventaja estadísticamente comprobada y con la
+            ganancia repartida (no cuelga de 2-3 trades).
+   CONTRA: muestra algo chica (24) y sin saldo en la wallet.
+
+2) 🏦 LA SOLVENTE
+   B9kJYdzb4gB9AC3aFChReDhJ2D5YDCaR4UrEoen2NcyC
+   36 cerradas · +88,82 SOL · wr 58,3% · ROI 20,9% · hold 12 s
+   sin sus 3 mejores: +16,47 SOL · saldo 168,47 SOL · @kyro10k
+   ORIGEN: lista pública (GMGN smart money) verificada por nosotros.
+   POR QUÉ: pasa el test anti-suerte Y tiene 168 SOL adentro: sigue operando en serio.
+   CONTRA: bot (12 s). Sirve para enterarte, no para copiar.
+
+3) 🎯 LA RENTABLE
+   BPne9CMUQ79MLsyzx7b4kH1KPsSQHfBaSmfpBVQfkjHq
+   68 cerradas · +137,45 SOL · wr 51,5% · hold 1 min · entra en el lanzamiento
+   ORIGEN: hallazgo propio (leímos los pools de los memecoins del radar y sacamos
+           los compradores reales).
+   POR QUÉ: la mayor ganancia con muestra grande; sus compras son señal temprana
+            (agarró tokens recién lanzados).
+   CONTRA: 64% de su PnL en UN solo trade; hold de 1 minuto.
+
+4) 📚 EL HISTÓRICO
+   A6zDvTdLrkKo8vPmrYShNVS6XVWT9tQEaTjPHibXnY3a
+   57 cerradas · +4,30 SOL · wr 21,1% · hold 6 s · t -2,98
+   ORIGEN: hallazgo propio (red de la wallet 6nU2L7MQ).
+   POR QUÉ: 57 operaciones cerradas = el mejor historial para juzgar comportamiento.
+   CONTRA: gana poco y con t negativo: para mirar qué compra, sin fe.
+
+5) 🐢 EL PACIENTE
+   DDMWe6qoo1dYkCBkaPAXXancTu9Na9wKb9UmjXTLZezX
+   31 cerradas · +39,99 SOL · wr 48,4% · hold 29,9 min · sin 3 mejores -7,14 SOL
+   ORIGEN: lista pública (smart money) verificada por nosotros.
+   POR QUÉ: hold promedio de media hora = el único con perfil que se puede seguir
+            a mano. Los demás son bots de segundos.
+   CONTRA: no pasa el test anti-suerte.
+
+======================================================================
+B) DETECTORES DE DUMP (perfil insider/bundle: cobran sin comprar)
+======================================================================
+
+6) 🚨 EL VENTAJERO 1
+   4suu2qBGieLQii6Hm1BeQEHA1vHdeHJd9c7qcvejxs46
+   +36,40 SOL · 15 cerradas · 100% de aciertos · 67% de posiciones SIN comprar
+   ORIGEN: hallazgo propio (red de 6nU2L7MQ). Estado: 0 SOL y 0 tokens hoy.
+   PARA QUÉ: vigilar CUÁNDO suelta. Cuando le den la próxima tanda y empiece a
+            vender, ese dump es señal de salida.
+
+7) 🚨 EL VENTAJERO 2
+   AG4q7iP4aVAQWSQnCjDg5PN6x2dkEHqZDxUsGDeC29nu
+   +12,06 SOL · 10 cerradas · 100% de aciertos · 70% SIN comprar
+   ORIGEN: hallazgo propio (red de 6nU2L7MQ). Mismo perfil que el 1.
+
+8) 🚨 EL VENTAJERO 3 (el más rápido de los tres)
+   DSk4pb9ZKXp89zqQJ52ReUemvrzvyQrQsXxwgTT1fWeh
+   +6,43 SOL · 9 cerradas · 100% de aciertos · 67% SIN comprar · hold 2,8 min
+   ORIGEN: hallazgo propio (red de 6nU2L7MQ).
+
+======================================================================
+C) LOS DE PnL GRANDE PERO COLGADOS DE UN GOLPE (mirar, no confiar)
+======================================================================
+
+9) 💥 EL GOLPE ÚNICO
+   9ryBR3SnxgGPhWsKvsfxuNHUCTt6tSpLe8wrKCShXLaq
+   +395,51 SOL en UNA sola posición · 100% SIN comprar · wr 100%
+   ORIGEN: lista pública (smart money) verificada por nosotros.
+   POR QUÉ: es el caso más puro de info privilegiada (nunca compró y cobró 395 SOL).
+   CONTRA: hecho puntual, no estrategia repetible.
+
+10) 🎰 EL LOTERO
+    8deJ9xeUvXSJwicYptA9mHsU2rN2pDx37KWzkDkEXhU6   (@CookerFlips)
+    72 cerradas · +272,18 SOL · wr 76,4% · hold 6 s
+    sin sus 3 mejores: -174,72 SOL
+    ORIGEN: lista pública (KolScan KOL) verificada por nosotros.
+    POR QUÉ: el mayor PnL bruto del día con la muestra más grande (72 operaciones).
+    CONTRA: sin 3 trades queda en -174 SOL = lotería, no edge.
+
+======================================================================
+LO QUE DESCARTÉ (para que no lo busques vos)
+======================================================================
+- 17 de las 20 "smart money" mejor rankeadas de las listas públicas: ganan por
+  2-3 golpes o pierden directo. Ej.: 8HcYptCBAa... (369.009 USD históricos) hoy
+  -37,26 SOL · ELGNVYE7X1R... -78,45 SOL · 843VNwYH83tg... (@allaanll) -141,70 SOL.
+- Las 15 wallets con "señal de insider" de la cacería (grupo HOTBOT): TODAS perdieron
+  entre -20 y -59 SOL cada una.
+- 1.961 wallets que recibieron tokens gratis en lanzamientos: cáscaras vacías
+  (0,002-0,01 SOL, 0 operaciones cerradas). El airdrop no es info privilegiada.
+- Las 13 del grupo HOTBOT y todo el resto de las rondas: perdedoras o sin muestra.
+
+======================================================================
+CÓMO SE COMPORTA EL TRACKER (recordatorio)
+======================================================================
+- La PRIMERA pasada de cada wallet es línea base: anota y NO avisa.
+- Después avisa cada compra/venta/transferencia con el veredicto del token.
+- Los avisos llegan 1-3 min después: sirven para enterarte y analizar vos, no para copiar.

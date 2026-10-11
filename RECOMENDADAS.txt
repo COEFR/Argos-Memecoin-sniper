@@ -1,0 +1,110 @@
+WALLETS RECOMENDADAS PARA TRACKEAR
+Generado: 07/10/2026 04:15 (hora Bolivia, UTC-4)
+Base: 3 rondas de descubrimiento + 75 wallets auditadas a fondo hoy
+Fuente de datos: blockchain de Solana (Helius), PnL reconstruido (no incluye priority fees/tips)
+
+======================================================================
+0) NUEVAS (verificadas hoy con el motor propio — listas públicas GMGN/KolScan)
+======================================================================
+B9kJYdzb4gB9AC3aFChReDhJ2D5YDCaR4UrEoen2NcyC   nota 8/10  ★ la mejor de todas
+  smart money (@kyro10k) · 36 cerradas · +88,82 SOL · wr 58,3% · ROI 20,9%
+  hold 12 s · t 1,08 · saldo 168,47 SOL
+  CLAVE: **sin sus 3 mejores trades sigue ganando (+16,47 SOL)** -> no depende de la suerte.
+  Contra: es un bot (12 s), o sea sirve para AVISOS, no para copiar.
+
+CQKJHYqVPn8P944dpQtNud5eVLQr4p8iFuKSVNgKYNxY   nota 7,5/10
+  smart money · 24 cerradas · +245,18 SOL · wr 79,2% · ROI 171%
+  hold 3,5 min · **t 2,79 (estadísticamente significativo)** · sin 3 mejores +101,40 SOL
+  21% de posiciones SIN COMPRAR (huella insider) · saldo 0 SOL.
+  Contra: muestra algo chica (24).
+
+OJO - las etiquetas públicas envejecen: de los 20 "smart money" mejor rankeados del
+dataset, 17 ganan por 2-3 golpes o pierden lisa y llanamente (ej.: el que tenía
+369.009 USD de ganancia en el dataset hoy pierde -37,26 SOL).
+
+======================================================================
+1) LA GANADORA  (recomendada sin reservas)
+======================================================================
+BPne9CMUQ79MLsyzx7b4kH1KPsSQHfBaSmfpBVQfkjHq
+
+  Qué es        : bot de sniping que entra en el lanzamiento de los tokens
+  Resultado     : +137,45 SOL realizados  |  ROI +139,5%  |  68 posiciones cerradas
+  Win rate      : 51,5%   |  hold mediano: 1,0 minuto  |  t = 1,32
+  Estado        : 43,58 SOL en la wallet · ACTIVA (último movimiento 06/10 21:55)
+  Firma sus tx  : sí
+
+  Por qué trackearla : es la única con ganancia grande y real, y compra en los
+                       primeros minutos del token -> el aviso te llega con el token
+                       recién salido (información temprana, lo único valioso acá).
+  Avisos esperados   : pocos por día (68 operaciones en toda su vida).
+  Contra             : 64,2% de su ganancia está en UN solo trade; hold de 1 minuto,
+                       así que el aviso llega cuando ya operó. Sirve para enterarte,
+                       NO para copiar.
+
+======================================================================
+2) DETECTOR DE DUMP  (recomendada como alarma de salida)
+======================================================================
+4suu2qBGieLQii6Hm1BeQEHA1vHdeHJd9c7qcvejxs46
+
+  Qué es        : wallet de perfil INSIDER/BUNDLE (recibe tokens sin comprarlos)
+  Resultado     : +36,40 SOL  |  15 posiciones cerradas  |  win rate 100%
+  Señal clave   : 67% de sus posiciones las cobró SIN haber comprado
+  Estado        : 0 SOL y 0 tokens (vaciada) · ACTIVA (movió hace minutos)
+  Firma sus tx  : sí
+
+  Por qué trackearla : no se copia, se VIGILA. Cuando le den la próxima tanda de
+                       tokens y empiece a vender, ese dump es señal de salida.
+  Contra             : muestra chica (15 posiciones) y hoy está vacía: los avisos
+                       dependen de que el operador haga otra ronda.
+
+======================================================================
+3) DETECTOR DE DUMP  (recomendada como alarma de salida)
+======================================================================
+C8kZrTpouPPy6rkH526J22yKZrycPE6d7q2LYKRcCGny
+
+  Qué es        : wallet de perfil INSIDER/BUNDLE
+  Resultado     : +19,54 SOL  |  13 posiciones cerradas  |  win rate 100%
+  Señal clave   : 85% de sus posiciones las cobró SIN haber comprado (la más marcada)
+  Estado        : 0 SOL y 0 tokens (vaciada) · ACTIVA (movió hace minutos)
+  Firma sus tx  : sí
+
+  Por qué trackearla : igual que la anterior: avisa cuándo el bundle suelta.
+  Contra             : muestra chica (13) y 100% de aciertos = firma de bundle, no
+                       de trader con estrategia.
+
+======================================================================
+4) OPCIONAL  (mirar, sin fe)
+======================================================================
+A6zDvTdLrkKo8vPmrYShNVS6XVWT9tQEaTjPHibXnY3a
+
+  Qué es        : bot de 6 segundos, muy activo
+  Resultado     : +4,30 SOL  |  57 posiciones cerradas  |  win rate 21,1%  |  t = -2,98
+  Estado        : 15,09 SOL · ACTIVA (movió hace minutos) · firma sus tx: sí
+  Por qué         : está operando ahora mismo y tiene muestra grande (57), pero su
+                    t negativo dice que gana poco y sin consistencia. Para mirar qué
+                    compra, no para seguirla.
+  Ojo             : pertenece a un set generado (mismo prefijo A6zD y sufijo Y3a que
+                    dos wallets que le pagan los fees) = otra pieza del mismo operador.
+
+======================================================================
+DESCARTADAS (no recomiendo trackear)
+======================================================================
+- AG4q7iP4aVAQWSQnCjDg5PN6x2dkEHqZDxUsGDeC29nu   0 SOL, 0 tokens, 10 cerradas
+- 5n8gMVmTakzmQvxE6iGUXsVGHvspNVH6oxsx3ANF3jLm   0 SOL, 0 tokens, 5 cerradas
+- 5oXLTBnM5WpKTEG4zLzXKKmERT63w8zfpD57ow8SQKFj   0 SOL, 0 tokens, 6 cerradas
+- DSk4pb9ZKXp89zqQJ52ReUemvrzvyQrQsXxwgTT1fWeh   0 SOL, 0 tokens, 9 cerradas
+- Las 13 wallets del grupo HOTBOT: todas perdieron entre -20 y -59 SOL
+- 65xAudQ62bvY... (-35,33 SOL · 114 cerradas) y D2oYJTcRiXeH... (-31,79 SOL · 67)
+  parecían buenas con ventana corta y se cayeron al mirar el historial completo
+- AYaQTZa8gaj3... (+38,94 SOL) pero sin sus 3 mejores trades queda en -3,59 SOL
+  = suerte de cola, no ventaja
+
+======================================================================
+CÓMO SE COMPORTA EL TRACKER
+======================================================================
+- La PRIMERA pasada de cada wallet es "línea base": anota sus últimas firmas y NO
+  avisa, para no inundar el canal con historial viejo.
+- Después avisa cada compra/venta/transferencia, con el veredicto del token y la
+  imagen, en el canal de wallets trackeadas.
+- Aviso importante: los avisos llegan 1-3 minutos después (el tracker mira cada 3
+  min). Para copiar memecoins eso es tarde; sirve para enterarte y analizar vos.

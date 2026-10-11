@@ -1,0 +1,77 @@
+INSIDERS ENCONTRADOS POR INVESTIGACIÓN PROPIA — LISTA CORREGIDA
+07/10/2026 · Solana · verificadas de la cadena con el motor propio
+
+⚠️ CORRECCIÓN IMPORTANTE (07/10/2026):
+   En la versión anterior de esta lista había una cuarta wallet —
+   5Dx8dhAAmA1BqP5Us7gu6vh5YgwLeWJENmJY4GBuwyLA — que resultó ser FALSA.
+   No es una wallet de persona: su cuenta pertenece al PROGRAMA DE FEES DE PUMP.FUN
+   (6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P), tiene 0,0014 SOL y de sus últimas
+   100 transacciones 99 fallaron. El "+81,75 SOL con 0 compras" que reportó mi auditoría
+   era un ARTEFACTO del parser (le atribuyó movimientos de saldo que no eran suyos).
+   El usuario lo detectó consultando exploradores: la dirección no tiene actividad útil.
+   CAUSA: en esa ruta se auditaban direcciones sin verificar antes que fueran wallets
+   de verdad (cuenta del System Program). Ya está arreglado en el script: toda dirección
+   se valida con getAccountInfo antes de auditarla.
+
+SON 3. Las tres son wallets REALES (dueño = System Program, verificado ahora) con la
+firma de información privilegiada: reciben tokens sin comprarlos y los venden.
+
+======================================================================
+1) 🚨 VENTAJERO 1
+======================================================================
+4suu2qBGieLQii6Hm1BeQEHA1vHdeHJd9c7qcvejxs46
+
+  +36,40 SOL · 15 posiciones cerradas · 100 % de aciertos · 67 % de posiciones SIN comprar
+  Verificación de cuenta: dueño System Program · 100 firmas · 1 con error · saldo 0,0032 SOL
+  Estado: vaciada (0 SOL y 0 tokens) · se movió por última vez el 07/10 (hoy)
+  Origen: red de la wallet 6nU2L7MQ… (conectada por transferencias de tokens)
+  PARA QUÉ: alarma de dump. Cuando le den la próxima tanda y empiece a vender, es salida.
+  OJO: muestra chica (15 operaciones) y hoy está vacía.
+
+======================================================================
+2) 🚨 VENTAJERO 2
+======================================================================
+AG4q7iP4aVAQWSQnCjDg5PN6x2dkEHqZDxUsGDeC29nu
+
+  +12,06 SOL · 10 posiciones cerradas · 100 % de aciertos · 70 % SIN comprar
+  Verificación de cuenta: dueño System Program · 100 firmas · 0 errores · saldo 0,0017 SOL
+  Estado: vaciada · activa
+  Origen: red de la wallet 6nU2L7MQ…
+  PARA QUÉ: alarma de dump (igual perfil que la 1).
+
+======================================================================
+3) 🚨 VENTAJERO 3   (la más "rápida" de las tres)
+======================================================================
+DSk4pb9ZKXp89zqQJ52ReUemvrzvyQrQsXxwgTT1fWeh
+
+  +6,43 SOL · 9 posiciones cerradas · 100 % de aciertos · 67 % SIN comprar · hold 2,8 min
+  Verificación de cuenta: dueño System Program · 100 firmas · 0 errores · saldo 0,0047 SOL
+  Estado: vaciada · activa
+  Origen: red de la wallet 6nU2L7MQ…
+  PARA QUÉ: alarma de dump.
+
+======================================================================
+OTROS HALLAZGOS QUE SÍ SE SOSTIENEN (no son wallets para seguir)
+======================================================================
+- 3 DISTRIBUIDORES reales (dueño System Program, verificados) con 7,3812 / 7,3813 / 7,3813 SOL
+  cada uno, que reparten tokens del lanzamiento a cientos de wallets:
+     CiGGtPSvs8UR6AhebdmvF5mfDtCGVtMCBJANFZhXo5qY  -> 372 wallets (DARK)
+     7dKJmcLEfnNKhQGtgn3QEGZB9ReHMd4Lbk8Cvu1dmFQA  -> 354 wallets (USDF)
+     6jvFjWGZnRfXR3saMGHEs61pDwEEhhoz4s3xaDrEozWc  -> 339 wallets (FOMO)
+  Sirven como FILTRO: token lanzado por una wallet nueva con ~7,381 SOL exactos que reparte
+  a cientos de wallets = reparto masivo, no comunidad -> alerta roja.
+- Miles de receptores de airdrops (FOMO 741 · WSOS 562 · OURA 482 · TDF 461 · DARK 372):
+  cáscaras, 0 operaciones, 0,002-0,01 SOL.
+- Creadores de los tokens que despegaron: wallets frescas desechables (0 tokens previos).
+- El cruce "recibió gratis -> vendió en el pool" dio VACÍO en 8 tokens: los receptores no
+  venden y los que venden en el pool son compradores que pagaron.
+
+======================================================================
+CÓMO SE USAN
+======================================================================
+- La PRIMERA pasada en el tracker es línea base: anota y NO avisa.
+- Después avisa cada compra/venta/transferencia con el veredicto del token.
+- Avisos 1-3 min después: sirven para enterarte y analizar, no para copiar.
+- Las 3 son ALARMAS (detectan dumps), no fuentes para copiar.
+- LECCIÓN APLICADA: toda dirección se valida (getAccountInfo -> dueño System Program) antes
+  de tratarla como wallet. Nunca reportar una dirección sin ese chequeo.
