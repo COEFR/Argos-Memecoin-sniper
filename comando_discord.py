@@ -28,7 +28,7 @@ sys.path.insert(0, AQUI)
 import tabla_calls as TC          # noqa: E402
 
 VISTO = os.path.join(AQUI, "comando_visto.json")
-DISPARADORES = ("!rick", "!tabla", "!ayuda", "!profit", "!ganancia", "!grupos", "!wallets")
+DISPARADORES = ("!rick", "!tabla", "!ath", "!ayuda", "!profit", "!ganancia", "!grupos", "!wallets")
 
 
 def log(m):
@@ -78,6 +78,7 @@ def ayuda():
             "`!profit <contrato>` → el chequeo de ESE token, desde el FDV del aviso\n"
             "`!tabla` → resultados del día (del FDV del aviso al pico)\n"
             "`!tabla todo` → resultados completos\n"
+            "`!ath` → el ATH de todos los contratos del server",
             "`!ayuda` → esta lista")
 
 
@@ -127,6 +128,45 @@ def _grupos():
     return "\n".join(lin)
 
 
+
+def _fk(x):
+    """Número corto para la tabla: 3.3M, 184k, 950."""
+    if not x:
+        return "—"
+    x = float(x)
+    if x >= 1_000_000:
+        return "%.1fM" % (x / 1_000_000)
+    if x >= 1_000:
+        return "%.0fk" % (x / 1_000)
+    return "%.0f" % x
+
+
+def _ath():
+    """ATH de los contratos del server: aviso, pico posterior y máximo histórico del pool."""
+    d = _leer(os.path.join(AQUI, "ath_server.json"), {})
+    f = d.get("filas") or []
+    if not f:
+        return ("Todavía no hay mediciones de ATH. Se van completando de a poco porque la API de velas "
+                "tiene límite de ritmo.")
+    top = f[:15]
+    medidos = sum(1 for x in f if x.get("ath"))
+    l = ["**ATH de los contratos del server**",
+         "_%d contratos auditados · %d con ATH de pool medido · %s_" % (d.get("contratos") or len(f), medidos,
+                                                                        (d.get("generado") or "")[:16]),
+         "```",
+         "%-12s %7s %8s %6s %8s" % ("token", "aviso", "pico", "pico x", "ath pool")]
+    for x in top:
+        l.append("%-12s %7s %8s %5sx %8s" % (
+            str(x.get("simbolo") or "?")[:12], _fk(x.get("fdv_aviso")), _fk(x.get("pico")),
+            "%.1f" % (x.get("mult_pico") or 0), _fk(x.get("ath"))))
+    l.append("```")
+    l.append("_aviso_ = FDV cuando salió la call · _pico_ = máximo posterior medido · "
+             "_ath pool_ = máximo histórico sobre el pool del DEX")
+    l.append("_Ojo: el tramo de la curva de pump.fun (antes de graduarse) no aparece en las velas del "
+             "pool; cuando el pico del aviso supera al del pool, ese tramo no está cubierto._")
+    return "\n".join(l)
+
+
 def respuesta(texto):
     """Arma la contestación según el comando pedido."""
     t = " ".join((texto or "").lower().split())
@@ -136,6 +176,8 @@ def respuesta(texto):
     if t.startswith("!tabla"):
         # sólo queda Argos: la tabla es la de sus avisos
         return TC.texto_tabla(todo=todo, n=10 if not todo else 15, argos=True)
+    if t.startswith("!ath") or t.startswith("!ath"):
+        return _ath()
     if t.startswith("!grupos"):
         return _grupos()
     if t.startswith("!wallets"):

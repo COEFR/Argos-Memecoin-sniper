@@ -29,6 +29,7 @@ TAREAS = [
     ("registro_calls.py",  ["--evaluar"], 6, 3, None),
     ("consumo.py",         ["--cron"], 12, 4, None),
     ("control_test.py",    ["--sembrar", "8"], 12, 5, None),
+    ("ath_server.py",      ["--tope", "12"], 6, 0, None),
     ("tabla_calls.py",     ["--argos", "--discord"], None, None, 13),
     ("control_test.py",    ["--informe", "--discord"], None, None, 13),
 ]
