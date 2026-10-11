@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="638" viewBox="0 0 1000 638" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#131519"/><stop offset="100%" stop-color="#0a0b0d"/></linearGradient><linearGradient id="barra" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#8a6410"/><stop offset="100%" stop-color="#f3d27a"/></linearGradient><linearGradient id="linea" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#d9a520" stop-opacity="0.9"/><stop offset="100%" stop-color="#d9a520" stop-opacity="0.05"/></linearGradient></defs>
+<rect width="1000" height="638" fill="url(#bg)"/>
+<rect width="1000" height="3" fill="url(#linea)"/>
+<text x="40" y="52" font-size="25" font-weight="800" fill="#f2f2f4">RESULTADOS MEDIDOS</text>
+<text x="40" y="78" font-size="14.5" fill="#9aa0a8">1.029 calls del registro &middot; linea base: el FDV del momento en que el bot publico el contrato &middot; pico posterior medido</text>
+<text x="40" y="100" font-size="13" font-family="ui-monospace,Menlo,monospace" fill="#d9a520" fill-opacity="0.75">TOP 10 POR MULTIPLO &middot; 113 con ATH de pool medido &middot; 2026-10-11 15:48 UTC</text>
+<text x="40" y="158" font-size="15" fill="#6b7178" font-family="ui-monospace,monospace"> 1</text>
+<text x="72" y="158" font-size="16" font-weight="700" fill="#e8e8ea">KOBE</text>
+<text x="230" y="158" font-size="13.5" fill="#9aa0a8" font-family="ui-monospace,monospace">48 &rarr; 48</text>
+<rect x="430" y="146" width="9" height="15" rx="7" fill="url(#barra)"/>
+<text x="451" y="158" font-size="15" font-weight="800" fill="#f3d27a" font-family="ui-monospace,monospace">1.0x</text>
+<text x="866" y="158" font-size="12.5" fill="#7f858c" font-family="ui-monospace,monospace">ath 7k</text>
+<text x="40" y="204" font-size="15" fill="#6b7178" font-family="ui-monospace,monospace"> 2</text>
+<text x="72" y="204" font-size="16" font-weight="700" fill="#e8e8ea">vamp</text>
+<text x="230" y="204" font-size="13.5" fill="#9aa0a8" font-family="ui-monospace,monospace">9k &rarr; 527k</text>
+<rect x="430" y="192" width="520" height="15" rx="7" fill="url(#barra)"/>
+<text x="962" y="204" font-size="15" font-weight="800" fill="#f3d27a" font-family="ui-monospace,monospace">56.1x</text>
+<text x="866" y="204" font-size="12.5" fill="#7f858c" font-family="ui-monospace,monospace">ath 631k</text>
+<text x="40" y="250" font-size="15" fill="#6b7178" font-family="ui-monospace,monospace"> 3</text>
+<text x="72" y="250" font-size="16" font-weight="700" fill="#e8e8ea">ROSE</text>
+<text x="230" y="250" font-size="13.5" fill="#9aa0a8" font-family="ui-monospace,monospace">8k &rarr; 25k</text>
+<rect x="430" y="238" width="29" height="15" rx="7" fill="url(#barra)"/>
+<text x="471" y="250" font-size="15" font-weight="800" fill="#f3d27a" font-family="ui-monospace,monospace">3.2x</text>
+<text x="866" y="250" font-size="12.5" fill="#7f858c" font-family="ui-monospace,monospace">ath 502k</text>
+<text x="40" y="296" font-size="15" fill="#6b7178" font-family="ui-monospace,monospace"> 4</text>
+<text x="72" y="296" font-size="16" font-weight="700" fill="#e8e8ea">ROSE</text>
+<text x="230" y="296" font-size="13.5" fill="#9aa0a8" font-family="ui-monospace,monospace">9k &rarr; 424k</text>
+<rect x="430" y="284" width="441" height="15" rx="7" fill="url(#barra)"/>
+<text x="883" y="296" font-size="15" font-weight="800" fill="#f3d27a" font-family="ui-monospace,monospace">47.6x</text>
+<text x="866" y="296" font-size="12.5" fill="#7f858c" font-family="ui-monospace,monospace">ath 502k</text>
+<text x="40" y="342" font-size="15" fill="#6b7178" font-family="ui-monospace,monospace"> 5</text>
+<text x="72" y="342" font-size="16" font-weight="700" fill="#e8e8ea">FACTORY</text>
+<text x="230" y="342" font-size="13.5" fill="#9aa0a8" font-family="ui-monospace,monospace">12k &rarr; 617k</text>
+<rect x="430" y="330" width="483" height="15" rx="7" fill="url(#barra)"/>
+<text x="925" y="342" font-size="15" font-weight="800" fill="#f3d27a" font-family="ui-monospace,monospace">52.2x</text>
+<text x="40" y="388" font-size="15" fill="#6b7178" font-family="ui-monospace,monospace"> 6</text>
+<text x="72" y="388" font-size="16" font-weight="700" fill="#e8e8ea">FEEBITS</text>
+<text x="230" y="388" font-size="13.5" fill="#9aa0a8" font-family="ui-monospace,monospace">22k &rarr; 22k</text>
+<rect x="430" y="376" width="9" height="15" rx="7" fill="url(#barra)"/>
+<text x="451" y="388" font-size="15" font-weight="800" fill="#f3d27a" font-family="ui-monospace,monospace">1.0x</text>
+<text x="866" y="388" font-size="12.5" fill="#7f858c" font-family="ui-monospace,monospace">ath 1.1M</text>
+<text x="40" y="434" font-size="15" fill="#6b7178" font-family="ui-monospace,monospace"> 7</text>
+<text x="72" y="434" font-size="16" font-weight="700" fill="#e8e8ea">ROSE</text>
+<text x="230" y="434" font-size="13.5" fill="#9aa0a8" font-family="ui-monospace,monospace">10k &rarr; 23k</text>
+<rect x="430" y="422" width="20" height="15" rx="7" fill="url(#barra)"/>
+<text x="462" y="434" font-size="15" font-weight="800" fill="#f3d27a" font-family="ui-monospace,monospace">2.2x</text>
+<text x="866" y="434" font-size="12.5" fill="#7f858c" font-family="ui-monospace,monospace">ath 502k</text>
+<text x="40" y="480" font-size="15" fill="#6b7178" font-family="ui-monospace,monospace"> 8</text>
+<text x="72" y="480" font-size="16" font-weight="700" fill="#e8e8ea">QI</text>
+<text x="230" y="480" font-size="13.5" fill="#9aa0a8" font-family="ui-monospace,monospace">34k &rarr; 1.4M</text>
+<rect x="430" y="468" width="390" height="15" rx="7" fill="url(#barra)"/>
+<text x="832" y="480" font-size="15" font-weight="800" fill="#f3d27a" font-family="ui-monospace,monospace">42.2x</text>
+<text x="40" y="526" font-size="15" fill="#6b7178" font-family="ui-monospace,monospace"> 9</text>
+<text x="72" y="526" font-size="16" font-weight="700" fill="#e8e8ea">COIN</text>
+<text x="230" y="526" font-size="13.5" fill="#9aa0a8" font-family="ui-monospace,monospace">19k &rarr; 689k</text>
+<rect x="430" y="514" width="343" height="15" rx="7" fill="url(#barra)"/>
+<text x="785" y="526" font-size="15" font-weight="800" fill="#f3d27a" font-family="ui-monospace,monospace">37.0x</text>
+<text x="40" y="572" font-size="15" fill="#6b7178" font-family="ui-monospace,monospace">10</text>
+<text x="72" y="572" font-size="16" font-weight="700" fill="#e8e8ea">open/acc</text>
+<text x="230" y="572" font-size="13.5" fill="#9aa0a8" font-family="ui-monospace,monospace">17k &rarr; 469k</text>
+<rect x="430" y="560" width="259" height="15" rx="7" fill="url(#barra)"/>
+<text x="701" y="572" font-size="15" font-weight="800" fill="#f3d27a" font-family="ui-monospace,monospace">28.0x</text>
+<line x1="40" y1="598" x2="960" y2="598" stroke="#23262b"/>
+<text x="40" y="624" font-size="12.5" fill="#6b7178">El ATH se mide sobre las velas del pool del DEX: el tramo de la curva de pump.fun no aparece ahi, por eso en algunos tokens el pico del aviso es mayor.</text>
+</svg>

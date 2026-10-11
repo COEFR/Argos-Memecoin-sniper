@@ -7,6 +7,32 @@ de wallets ni servicios de pago: el agrupamiento surge de coincidencias temporal
 Alcance: sistema de observación. No ejecuta operaciones, no administra claves privadas y no tiene acceso a
 fondos.
 
+
+## Resultados medidos
+
+Va primero porque es lo que importa. Cada call se mide desde el FDV del momento en que el bot
+publicó el contrato (`mcap_call`) hasta el pico posterior registrado, y se completa con el máximo
+histórico del pool.
+
+<img src="img/resultados.svg" alt="resultados medidos: top de calls por múltiplo, del FDV del aviso al pico" width="100%">
+
+Los mismos datos, en tabla:
+
+| # | token | aviso | pico | múltiplo | ATH del pool |
+|---|---|---|---|---|---|
+| 1 | **KOBE** | 48 | 48 | **1.0x** | 7k |
+| 2 | **vamp** | 9k | 527k | **56.1x** | 631k |
+| 3 | **ROSE** | 8k | 25k | **3.2x** | 502k |
+| 4 | **ROSE** | 9k | 424k | **47.6x** | 502k |
+| 5 | **FACTORY** | 12k | 617k | **52.2x** | — |
+| 6 | **FEEBITS** | 22k | 22k | **1.0x** | 1.1M |
+| 7 | **ROSE** | 10k | 23k | **2.2x** | 502k |
+| 8 | **QI** | 34k | 1.4M | **42.2x** | — |
+| 9 | **COIN** | 19k | 689k | **37.0x** | — |
+| 10 | **open/acc** | 17k | 469k | **28.0x** | — |
+
+_El ATH se mide sobre las velas del pool; el tramo de la curva de pump.fun no está ahí, así que en algunos tokens el pico del aviso es mayor._
+
 ## Pipeline
 
 1. **Ingesta.** Consulta los lanzamientos recientes de pump.fun y extrae hasta 40 compradores por
@@ -56,7 +82,7 @@ están declarados en el código.
 - **Verificación de entrega.** El envío a Discord se comprueba releyendo el canal: una respuesta 200 del
   POST no garantiza que el mensaje sea visible para el usuario.
 
-## Resultados medidos
+## Hallazgos
 
 Corresponden a las mediciones registradas en `NOTAS.md`. Se incluyen los resultados negativos.
 
@@ -80,31 +106,6 @@ Corresponden a las mediciones registradas en `NOTAS.md`. Se incluyen los resulta
 + wallets alcanzadas por el operador:          372 / 354 / 339
 - volumen de 24 h que descalifica:             500 USD
 + lanzamientos requeridos por par:             2
-```
-
-### Salida del comando `/ath`
-
-El comando mide cada call desde el FDV del momento en que el bot publicó el contrato (`mcap_call` de
-`calls_historial.json`), toma el pico posterior registrado en su seguimiento y lo completa con el máximo
-histórico del pool. Salida real sobre las 1.021 calls del registro:
-
-```
-**ATH de todas las calls** (línea base: el FDV cuando el bot publicó el contrato)
-_1021 calls · 33 con ATH de pool medido · 2026-10-11 14:36_
-```
-token          aviso     pico  pico x ath pool
-vamp              9k     527k   56.1x     631k
-FACTORY          12k     617k   52.2x        —
-ROSE              9k     424k   47.6x        —
-QI               34k     1.4M   42.2x        —
-COIN             19k     689k   37.0x        —
-open/acc         17k     469k   28.0x        —
-STRKT            10k     233k   23.8x        —
-TOLLTROLL         9k     209k   22.3x        —
-REA               9k     187k   21.1x        —
-COMPANY           8k       8k    1.0x     158k
-```
-_El ATH se mide sobre las velas del pool del DEX; el tramo de la curva de pump.fun no aparece ahí, así que en algunos tokens el pico del aviso es mayor._
 ```
 
 ## Metodología de evaluación
