@@ -25,6 +25,12 @@ El circuito:
 Solo informa. No opera, no mueve fondos y no pide claves privadas. Los datos y las claves quedan fuera del
 repositorio.
 
+## Cómo se mueve la información
+
+Todo el sistema, de la API pública al aviso en Discord, pasa por acá:
+
+<img src="img/arquitectura.svg" alt="arquitectura de Argos: ingesta, agrupamiento, origen y vivo, medición" width="100%">
+
 ## Cómo encuentra un grupo sin que se lo cuenten
 
 El corazón son treinta líneas: una clase con union-find. Cada wallet que compró un lanzamiento se une con
@@ -84,6 +90,15 @@ Esta sección va antes de la estructura a propósito. Todo medido, nada estimado
 - **Los top holders de RugCheck engañan a cualquiera.** Incluyen la curva de pump.fun, que en un token
   recién lanzado es el 94-100% del supply. Sin descontarla, todo token nuevo parece un rug con el "top 10
   al 100%". Es el error más común de las herramientas que puntúan tokens.
+
+```diff
++ pico del mejor grupo medido:              24x
+- mediana del mismo grupo:                  0,46x
+- insiders rentables (15 wallets auditadas): 0
++ wallets alcanzadas por el operador:       372 / 354 / 339
+- volumen de 24 h que descalifica:          500 USD
++ lanzamientos que debe coincidir un par:   2
+```
 
 ## Cómo se mide, y por qué vale creerle
 

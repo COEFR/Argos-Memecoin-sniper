@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="640" viewBox="0 0 1240 640" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="flecha" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#d9a520"/>
+    </marker>
+    <linearGradient id="caja" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#16171a"/>
+      <stop offset="100%" stop-color="#0e0f11"/>
+    </linearGradient>
+    <linearGradient id="acento" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#d9a520"/>
+      <stop offset="100%" stop-color="#f3d27a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1240" height="640" fill="#0b0c0e"/>
+
+  <!-- títulos de fila -->
+  <g font-size="13" font-family="ui-monospace,Menlo,monospace" fill="#8b8f98" letter-spacing="1.5">
+    <text x="30" y="116">INGESTA</text>
+    <text x="30" y="276">GRUPOS</text>
+    <text x="30" y="436">ORIGEN</text>
+    <text x="30" y="596">MEDICIÓN</text>
+  </g>
+  <g stroke="#23262b" stroke-width="1">
+    <line x1="20" y1="150" x2="1220" y2="150"/>
+    <line x1="20" y1="310" x2="1220" y2="310"/>
+    <line x1="20" y1="470" x2="1220" y2="470"/>
+  </g>
+
+  <!-- fila 1 -->
+  <g>
+    <rect x="120" y="60" width="240" height="70" rx="10" fill="url(#caja)" stroke="#2c2f35"/>
+    <text x="240" y="90" text-anchor="middle" font-size="15" font-weight="700" fill="#e8e8ea">pump.fun · API pública</text>
+    <text x="240" y="112" text-anchor="middle" font-size="12.5" fill="#8b8f98" font-family="ui-monospace,monospace">lanzamientos nuevos</text>
+
+    <rect x="420" y="60" width="260" height="70" rx="10" fill="url(#caja)" stroke="#2c2f35"/>
+    <text x="550" y="90" text-anchor="middle" font-size="15" font-weight="700" fill="#e8e8ea">Cosecha</text>
+    <text x="550" y="112" text-anchor="middle" font-size="12.5" fill="#d9a520" font-family="ui-monospace,monospace">40 compradores · monto · segundo</text>
+
+    <rect x="740" y="60" width="300" height="70" rx="10" fill="url(#caja)" stroke="#2c2f35"/>
+    <text x="890" y="90" text-anchor="middle" font-size="15" font-weight="700" fill="#e8e8ea">RPC Solana</text>
+    <text x="890" y="112" text-anchor="middle" font-size="12.5" fill="#d9a520" font-family="ui-monospace,monospace">jsonParsed · paginado · caché</text>
+  </g>
+  <g stroke="#d9a520" stroke-width="2" marker-end="url(#flecha)" fill="none">
+    <path d="M360 95 L415 95"/><path d="M680 95 L735 95"/>
+  </g>
+
+  <!-- fila 2 -->
+  <g>
+    <rect x="120" y="220" width="300" height="70" rx="10" fill="url(#caja)" stroke="#2c2f35"/>
+    <text x="270" y="250" text-anchor="middle" font-size="15" font-weight="700" fill="#e8e8ea">Ventana de co-compra</text>
+    <text x="270" y="272" text-anchor="middle" font-size="12.5" fill="#d9a520" font-family="ui-monospace,monospace">300 s · 0,1 SOL mínimo</text>
+
+    <rect x="480" y="220" width="270" height="70" rx="10" fill="url(#caja)" stroke="#d9a520" stroke-opacity="0.55"/>
+    <text x="615" y="250" text-anchor="middle" font-size="15" font-weight="700" fill="#f3d27a">union-find</text>
+    <text x="615" y="272" text-anchor="middle" font-size="12.5" fill="#8b8f98" font-family="ui-monospace,monospace">2 coincidencias o no hay grupo</text>
+
+    <rect x="810" y="220" width="230" height="70" rx="10" fill="url(#caja)" stroke="#2c2f35"/>
+    <text x="925" y="250" text-anchor="middle" font-size="15" font-weight="700" fill="#e8e8ea">Grupos</text>
+    <text x="925" y="272" text-anchor="middle" font-size="12.5" fill="#8b8f98" font-family="ui-monospace,monospace">dúos → cohortes</text>
+  </g>
+  <g stroke="#d9a520" stroke-width="2" marker-end="url(#flecha)" fill="none">
+    <path d="M420 255 L475 255"/><path d="M750 255 L805 255"/>
+  </g>
+
+  <!-- fila 3 -->
+  <g>
+    <rect x="120" y="380" width="300" height="70" rx="10" fill="url(#caja)" stroke="#2c2f35"/>
+    <text x="270" y="410" text-anchor="middle" font-size="15" font-weight="700" fill="#e8e8ea">Fondeo hacia atrás</text>
+    <text x="270" y="432" text-anchor="middle" font-size="12.5" fill="#d9a520" font-family="ui-monospace,monospace">6 saltos hasta el pagador</text>
+
+    <rect x="480" y="380" width="270" height="70" rx="10" fill="url(#caja)" stroke="#2c2f35"/>
+    <text x="615" y="410" text-anchor="middle" font-size="15" font-weight="700" fill="#e8e8ea">WebSocket</text>
+    <text x="615" y="432" text-anchor="middle" font-size="12.5" fill="#d9a520" font-family="ui-monospace,monospace">logsSubscribe · 150 s · 2 wallets</text>
+
+    <rect x="810" y="380" width="230" height="70" rx="10" fill="url(#caja)" stroke="#2c2f35"/>
+    <text x="925" y="410" text-anchor="middle" font-size="15" font-weight="700" fill="#e8e8ea">Discord</text>
+    <text x="925" y="432" text-anchor="middle" font-size="12.5" fill="#8b8f98" font-family="ui-monospace,monospace">aviso en el bloque</text>
+  </g>
+  <g stroke="#d9a520" stroke-width="2" marker-end="url(#flecha)" fill="none">
+    <path d="M420 415 L475 415"/><path d="M750 415 L805 415"/>
+  </g>
+
+  <!-- fila 4 -->
+  <g>
+    <rect x="120" y="540" width="300" height="70" rx="10" fill="url(#caja)" stroke="#2c2f35"/>
+    <text x="270" y="570" text-anchor="middle" font-size="15" font-weight="700" fill="#e8e8ea">Resultado por aviso</text>
+    <text x="270" y="592" text-anchor="middle" font-size="12.5" fill="#d9a520" font-family="ui-monospace,monospace">FDV al aviso → pico · 6 h</text>
+
+    <rect x="480" y="540" width="270" height="70" rx="10" fill="url(#caja)" stroke="#2c2f35"/>
+    <text x="615" y="570" text-anchor="middle" font-size="15" font-weight="700" fill="#e8e8ea">Percentil del día</text>
+    <text x="615" y="592" text-anchor="middle" font-size="12.5" fill="#8b8f98" font-family="ui-monospace,monospace">mediana, no promedio</text>
+
+    <rect x="810" y="540" width="230" height="70" rx="10" fill="url(#caja)" stroke="#4ade80" stroke-opacity="0.5"/>
+    <text x="925" y="570" text-anchor="middle" font-size="15" font-weight="700" fill="#4ade80">Test de control</text>
+    <text x="925" y="592" text-anchor="middle" font-size="12.5" fill="#8b8f98" font-family="ui-monospace,monospace">tokens al azar</text>
+  </g>
+  <g stroke="#d9a520" stroke-width="2" marker-end="url(#flecha)" fill="none">
+    <path d="M420 575 L475 575"/><path d="M750 575 L805 575"/>
+  </g>
+
+  <!-- retorno del control -->
+  <path d="M1040 575 L1120 575 L1120 95 L1045 95" fill="none" stroke="#4ade80" stroke-opacity="0.5" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#flecha)"/>
+  <text x="1150" y="330" font-size="12" fill="#4ade80" fill-opacity="0.8" font-family="ui-monospace,monospace" transform="rotate(90 1150 330)">si no le gana al azar, no sirve</text>
+
+  <!-- pie -->
+  <text x="30" y="628" font-size="12.5" fill="#5f636b" font-family="ui-monospace,monospace">librería estándar de Python · APIs públicas · cero tokens de LLM · flock sobre el ciclo leer-modificar-guardar</text>
+</svg>
