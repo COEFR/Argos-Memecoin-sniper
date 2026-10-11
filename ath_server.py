@@ -107,6 +107,11 @@ def main():
         print(mostrar(n))
         return 0
 
+    if not os.path.exists(CALLS):
+        # El registro de calls (4,9 MB) vive fuera del repositorio: esta tarea corre en el equipo,
+        # no en GitHub Actions. Si falta, se sale sin romper la corrida.
+        print("sin calls_historial.json (esta tarea corre donde está el registro): no hay nada que medir")
+        return 0
     calls = json.load(open(CALLS))
     # línea base = el FDV del momento en que el bot lo publicó
     calls = [c for c in calls if c.get("mcap_call") and c.get("mint")]
