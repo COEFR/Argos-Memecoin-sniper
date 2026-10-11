@@ -26,3 +26,5 @@ id_ed25519*
 *.db
 *.sqlite
 calls_historial.*
+
+*.pid
