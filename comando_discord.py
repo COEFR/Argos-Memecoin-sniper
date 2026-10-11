@@ -28,7 +28,7 @@ sys.path.insert(0, AQUI)
 import tabla_calls as TC          # noqa: E402
 
 VISTO = os.path.join(AQUI, "comando_visto.json")
-DISPARADORES = ("!rick", "!tabla", "!ath", "!ayuda", "!profit", "!ganancia", "!grupos", "!wallets")
+DISPARADORES = ("!rick", "!tabla", "!ath", "!rsi", "!ayuda", "!profit", "!ganancia", "!grupos", "!wallets")
 
 
 def log(m):
@@ -79,6 +79,7 @@ def ayuda():
             "`!tabla` → resultados del día (del FDV del aviso al pico)\n"
             "`!tabla todo` → resultados completos\n"
             "`!ath` → el ATH de todos los contratos del server",
+            "`!rsi` → las últimas 10 señales del RSI de este canal (en archivo .txt)",
             "`!ayuda` → esta lista")
 
 
@@ -167,7 +168,86 @@ def _ath():
     return "\n".join(l)
 
 
-def respuesta(texto):
+
+TRADING = "/home/ubuntu/.hermes/data/trading"
+
+
+def _multipart(fields, files):
+    """Cuerpo multipart para mandar un archivo adjunto por la API de Discord."""
+    b = "----hermes" + str(int(time.time() * 1000))
+    cuerpo = []
+    for k, v in fields.items():
+        cuerpo.append("--%s\r\nContent-Disposition: form-data; name=\"%s\"\r\n\r\n%s\r\n" % (b, k, v))
+    for k, (nombre, datos, tipo) in files.items():
+        cuerpo.append("--%s\r\nContent-Disposition: form-data; name=\"%s\"; filename=\"%s\"\r\n"
+                      "Content-Type: %s\r\n\r\n" % (b, k, nombre, tipo))
+        out = "".join(cuerpo).encode() + datos + ("\r\n--%s--\r\n" % b).encode()
+        return out, "multipart/form-data; boundary=%s" % b
+    return "".join(cuerpo).encode(), "multipart/form-data; boundary=%s" % b
+
+
+def _rsi(canal=None, args="", token=None):
+    """Ultimas 10 señales del RSI del canal donde se pidio, en un archivo .txt.
+
+    El filtro natural es el canal: si el comando se escribe en el canal de premium, salen
+    solo esas. Tambien acepta un filtro por texto: !rsi premium / !rsi normal / !rsi momentum.
+    """
+    ruta = os.path.join(TRADING, "signals_log.jsonl")
+    if not os.path.exists(ruta):
+        return "No encuentro el registro de señales del RSI."
+    filtro = (args or "").strip().lower()
+    señales = []
+    for linea in open(ruta, encoding="utf-8", errors="ignore"):
+        linea = linea.strip()
+        if not linea.startswith("{"):
+            continue
+        try:
+            x = json.loads(linea)
+        except Exception:                                        # noqa: BLE001
+            continue
+        if canal and str(x.get("canal")) != str(canal) and filtro not in ("premium", "normal", "momentum", "rebote"):
+            continue
+        if filtro:
+            campos = " ".join(str(x.get(k, "")) for k in ("tipo", "tier", "score_label", "sym")).lower()
+            if filtro not in campos:
+                continue
+        señales.append(x)
+    if not señales:
+        return "No hay señales registradas para este canal todavía."
+    ultimas = señales[-10:]
+    cuales = "del canal" if canal and not filtro else ("filtro: %s" % filtro if filtro else "todas")
+    lineas = ["ULTIMAS %d SEÑALES DEL BOT DE RSI (%s)" % (len(ultimas), cuales),
+              "Generado: %s UTC" % time.strftime("%Y-%m-%d %H:%M", time.gmtime()), ""]
+    for i, x in enumerate(reversed(ultimas), 1):
+        lineas.append("%2d. %s %s %s" % (i, x.get("sym"), x.get("tf"), x.get("dir", "")))
+        lineas.append("    %s · puntaje %s/10 %s" % (str(x.get("tipo", ""))[:52], x.get("score"), x.get("score_label") or ""))
+        e, sl, tp = x.get("entry"), x.get("sl"), x.get("tp")
+        if e and sl and tp:
+            lineas.append("    entrada %.8g · objetivo %.8g · stop %.8g" % (e, tp, sl))
+        ts = x.get("ts") or 0
+        ts = ts / 1000 if ts > 1e11 else ts
+        lineas.append("    %s" % time.strftime("%d/%m %H:%M UTC", time.gmtime(ts)))
+        lineas.append("")
+    texto = "\n".join(lineas)
+    nombre = "rsi_ultimas%d_%s.txt" % (len(ultimas), time.strftime("%Y%m%d_%H%M"))
+    destino = os.path.join("/tmp", nombre)
+    open(destino, "w", encoding="utf-8").write(texto)
+    if token and canal:
+        cuerpo, tipo = _multipart({"content": "**Ultimas %d señales del RSI** _(%s)_" % (len(ultimas), cuales)},
+                                  {"files[0]": (nombre, open(destino, "rb").read(), "text/plain")})
+        req = urllib.request.Request("https://discord.com/api/v10/channels/%s/messages" % canal,
+                                     data=cuerpo, method="POST",
+                                     headers={"Authorization": "Bot " + token, "Content-Type": tipo,
+                                              "User-Agent": "hermes-argos/1.0"})
+        try:
+            urllib.request.urlopen(req, timeout=30)
+        except Exception as e:                                   # noqa: BLE001
+            return "No pude subir el archivo: %s" % e
+        return ""                                                # ya se envió (con el archivo)
+    return texto
+
+
+def respuesta(texto, canal=None, token=None):
     """Arma la contestación según el comando pedido."""
     t = " ".join((texto or "").lower().split())
     todo = "todo" in t
@@ -176,8 +256,10 @@ def respuesta(texto):
     if t.startswith("!tabla"):
         # sólo queda Argos: la tabla es la de sus avisos
         return TC.texto_tabla(todo=todo, n=10 if not todo else 15, argos=True)
-    if t.startswith("!ath") or t.startswith("!ath"):
+    if t.startswith("!ath"):
         return _ath()
+    if t.startswith("!rsi"):
+        return _rsi(canal=canal, args=t[4:].strip(), token=token)
     if t.startswith("!grupos"):
         return _grupos()
     if t.startswith("!wallets"):
@@ -281,7 +363,7 @@ def revisar(token, canales, test=False):
             if visto.get(mid):
                 continue
             visto[mid] = time.time()
-            r = respuesta(texto)
+            r = respuesta(texto, canal=canal, token=token)
             if not r:
                 continue
             if len(r) > 1900:                         # Discord corta en 2000
@@ -305,8 +387,9 @@ def main():
         log("! falta DISCORD_BOT_TOKEN en ~/.hermes/.env")
         return 1
     canales = [c for c in (env.get("DISCORD_ARGOS_CHANNEL"), env.get("DISCORD_PUMP_CHANNEL")) if c]
+    canales += [c.strip() for c in (env.get("DISCORD_RSI_CHANNELS") or "").split(",") if c.strip()]
     if a.probar:
-        r = respuesta(a.probar)
+        r = respuesta(a.probar, canal=a.canal, token=token)
         canal = a.canal or canales[0]
         print(f"--- respuesta a {a.probar!r} ({len(r or '')} chars) → canal {canal} ---")
         print(r)
