@@ -40,11 +40,11 @@ p = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 
      '<rect width="%d" height="%d" fill="url(#bg)"/>' % (ancho, alto),
      '<rect width="%d" height="3" fill="url(#linea)"/>' % ancho,
      '<text x="40" y="52" font-size="25" font-weight="800" fill="#f2f2f4">RESULTADOS MEDIDOS</text>',
-     '<text x="40" y="78" font-size="14.5" fill="#9aa0a8">%s calls del registro &middot; linea base: el FDV '
-     'del momento en que el bot publico el contrato &middot; pico posterior medido</text>'
+     '<text x="40" y="78" font-size="14.5" fill="#9aa0a8">%s calls del registro · linea base: el FDV '
+     'del momento en que el bot publico el contrato · pico posterior medido</text>'
      % ("{:,}".format(total).replace(",", ".")),
      '<text x="40" y="100" font-size="13" font-family="ui-monospace,Menlo,monospace" fill="#d9a520" '
-     'fill-opacity="0.75">TOP %d POR MULTIPLO &middot; %d con ATH de pool medido &middot; %s</text>'
+     'fill-opacity="0.75">TOP %d POR MULTIPLO · %d con ATH de pool medido · %s</text>'
      % (len(filas), con_ath, time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()))]
 
 y = 132
@@ -54,7 +54,7 @@ for i, x in enumerate(filas, 1):
     cy = y + 26
     p.append('<text x="40" y="%d" font-size="15" fill="#6b7178" font-family="ui-monospace,monospace">%2d</text>' % (cy, i))
     p.append('<text x="72" y="%d" font-size="16" font-weight="700" fill="#e8e8ea">%s</text>' % (cy, str(x.get("simbolo") or "?")[:16]))
-    p.append('<text x="230" y="%d" font-size="13.5" fill="#9aa0a8" font-family="ui-monospace,monospace">%s &rarr; %s</text>' % (cy, corto(x.get("fdv_aviso")), corto(x.get("pico"))))
+    p.append('<text x="230" y="%d" font-size="13.5" fill="#9aa0a8" font-family="ui-monospace,monospace">%s → %s</text>' % (cy, corto(x.get("fdv_aviso")), corto(x.get("pico"))))
     p.append('<rect x="430" y="%d" width="%d" height="15" rx="7" fill="url(#barra)"/>' % (y + 14, w))
     p.append('<text x="%d" y="%d" font-size="15" font-weight="800" fill="#f3d27a" font-family="ui-monospace,monospace">%.1fx</text>' % (430 + w + 12, cy, mult))
     if x.get("ath"):
