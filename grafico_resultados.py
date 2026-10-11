@@ -10,7 +10,11 @@ S = os.path.join(AQUI, "img", "resultados.svg")
 TOPE = 10
 
 d = json.load(open(D))
-filas = [x for x in (d.get("filas") or []) if x.get("mult_pico")][:TOPE]
+# sólo calls con base creíble: un FDV de aviso menor a 1k es un registro roto, y sin movimiento no entra
+candidatas = [x for x in (d.get("filas") or [])
+              if (x.get("fdv_aviso") or 0) >= 1000 and (x.get("mult_pico") or 0) >= 1.2]
+candidatas.sort(key=lambda x: -(x.get("mult_pico") or 0))
+filas = candidatas[:TOPE]
 total = d.get("contratos") or len(d.get("filas") or [])
 con_ath = d.get("con_ath") or 0
 
@@ -24,7 +28,7 @@ def corto(x):
     return "%.0f" % x
 
 
-alto_fila, ancho, largo_barra = 46, 1000, 520
+alto_fila, ancho, largo_barra = 46, 1000, 372
 alto = 132 + alto_fila * len(filas) + 46
 maxx = max((x["mult_pico"] or 0) for x in filas) or 1
 
@@ -50,13 +54,14 @@ p = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 
 y = 132
 for i, x in enumerate(filas, 1):
     mult = x["mult_pico"] or 0
-    w = max(6, largo_barra * (mult / maxx))
+    w = max(6, min(largo_barra, largo_barra * (mult / maxx)))
     cy = y + 26
     p.append('<text x="40" y="%d" font-size="15" fill="#6b7178" font-family="ui-monospace,monospace">%2d</text>' % (cy, i))
     p.append('<text x="72" y="%d" font-size="16" font-weight="700" fill="#e8e8ea">%s</text>' % (cy, str(x.get("simbolo") or "?")[:16]))
     p.append('<text x="230" y="%d" font-size="13.5" fill="#9aa0a8" font-family="ui-monospace,monospace">%s → %s</text>' % (cy, corto(x.get("fdv_aviso")), corto(x.get("pico"))))
     p.append('<rect x="430" y="%d" width="%d" height="15" rx="7" fill="url(#barra)"/>' % (y + 14, w))
-    p.append('<text x="%d" y="%d" font-size="15" font-weight="800" fill="#f3d27a" font-family="ui-monospace,monospace">%.1fx</text>' % (430 + w + 12, cy, mult))
+    etq_x = min(430 + w + 12, 850)
+    p.append('<text x="%d" y="%d" font-size="15" font-weight="800" fill="#f3d27a" font-family="ui-monospace,monospace">%.1fx</text>' % (etq_x, cy, mult))
     if x.get("ath"):
         p.append('<text x="866" y="%d" font-size="12.5" fill="#7f858c" font-family="ui-monospace,monospace">ath %s</text>' % (cy, corto(x["ath"])))
     y += alto_fila
@@ -66,6 +71,12 @@ p.append('<text x="40" y="%d" font-size="12.5" fill="#6b7178">El ATH se mide sob
          'el tramo de la curva de pump.fun no aparece ahi, por eso en algunos tokens el pico del aviso es mayor.</text>' % (y + 32))
 p.append('</svg>')
 
+tabla = ["| # | token | aviso | pico | múltiplo | ATH del pool |", "|---|---|---|---|---|---|"]
+for i, x in enumerate(filas, 1):
+    tabla.append("| %d | **%s** | %s | %s | **%.1fx** | %s |" % (
+        i, x.get("simbolo") or "?", corto(x.get("fdv_aviso")), corto(x.get("pico")),
+        x.get("mult_pico") or 0, corto(x.get("ath")) if x.get("ath") else "—"))
 os.makedirs(os.path.dirname(S), exist_ok=True)
+open(os.path.join(AQUI, "img", "resultados.md"), "w").write("\n".join(tabla))
 open(S, "w").write("\n".join(p))
 print("escrito img/resultados.svg · %d filas · top %.1fx · %d bytes" % (len(filas), maxx, os.path.getsize(S)))

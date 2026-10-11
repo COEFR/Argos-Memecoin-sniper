@@ -20,16 +20,16 @@ Los mismos datos, en tabla:
 
 | # | token | aviso | pico | múltiplo | ATH del pool |
 |---|---|---|---|---|---|
-| 1 | **KOBE** | 48 | 48 | **1.0x** | 7k |
-| 2 | **vamp** | 9k | 527k | **56.1x** | 631k |
-| 3 | **ROSE** | 8k | 25k | **3.2x** | 502k |
-| 4 | **ROSE** | 9k | 424k | **47.6x** | 502k |
-| 5 | **FACTORY** | 12k | 617k | **52.2x** | — |
-| 6 | **FEEBITS** | 22k | 22k | **1.0x** | 1.1M |
-| 7 | **ROSE** | 10k | 23k | **2.2x** | 502k |
-| 8 | **QI** | 34k | 1.4M | **42.2x** | — |
-| 9 | **COIN** | 19k | 689k | **37.0x** | — |
-| 10 | **open/acc** | 17k | 469k | **28.0x** | — |
+| 1 | **vamp** | 9k | 527k | **56.1x** | 631k |
+| 2 | **FACTORY** | 12k | 617k | **52.2x** | — |
+| 3 | **ROSE** | 9k | 424k | **47.6x** | 502k |
+| 4 | **QI** | 34k | 1.4M | **42.2x** | — |
+| 5 | **COIN** | 19k | 689k | **37.0x** | — |
+| 6 | **open/acc** | 17k | 469k | **28.0x** | — |
+| 7 | **STRKT** | 10k | 233k | **23.8x** | — |
+| 8 | **TOLLTROLL** | 9k | 209k | **22.3x** | — |
+| 9 | **REA** | 9k | 187k | **21.1x** | — |
+| 10 | **kumo** | 8k | 146k | **19.3x** | — |
 
 _El ATH se mide sobre las velas del pool; el tramo de la curva de pump.fun no está ahí, así que en algunos tokens el pico del aviso es mayor._
 
