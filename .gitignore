@@ -28,3 +28,5 @@ id_ed25519*
 calls_historial.*
 
 *.pid
+insiders_cruce.json
+wallets_clasificadas.json
