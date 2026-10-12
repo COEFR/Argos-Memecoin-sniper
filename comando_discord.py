@@ -170,6 +170,7 @@ def _ath():
 
 
 TRADING = "/home/ubuntu/.hermes/data/trading"
+_CANAL_DESTINO = ""   # lo setea quien llama (el plugin /rsi lo llena con el canal de origen)
 
 
 def _multipart(fields, files):
@@ -205,7 +206,7 @@ def _rsi(canal=None, args="", token=None):
             x = json.loads(linea)
         except Exception:                                        # noqa: BLE001
             continue
-        if canal and str(x.get("canal")) != str(canal) and filtro not in ("premium", "normal", "momentum", "rebote"):
+        if canal and canal != "*" and str(x.get("canal")) != str(canal) and filtro not in ("premium", "normal", "momentum", "rebote"):
             continue
         if filtro:
             campos = " ".join(str(x.get(k, "")) for k in ("tipo", "tier", "score_label", "sym")).lower()
@@ -214,6 +215,55 @@ def _rsi(canal=None, args="", token=None):
         señales.append(x)
     if not señales:
         return "No hay señales registradas para este canal todavía."
+
+    # Modo "todos los canales": las últimas 10 de cada uno, en secciones (30 en total)
+    if canal == "*":
+        por_canal = {}
+        for x in señales:
+            c = str(x.get("canal") or "")
+            if not c or c == "None":          # las que no tienen canal asignado no entran en las 3 secciones
+                continue
+            por_canal.setdefault(c, []).append(x)
+        orden = sorted(por_canal.items(), key=lambda kv: -len(kv[1]))
+        lineas = ["ULTIMAS 10 SEÑALES DE CADA CANAL DEL BOT DE RSI",
+                  "Generado: %s UTC" % time.strftime("%Y-%m-%d %H:%M", time.gmtime()),
+                  "%d canales · %d señales en total" % (len(orden), sum(len(v[-10:]) for _, v in orden)), ""]
+        for c, lista in orden:
+            ult = lista[-10:]
+            tipo = str(ult[-1].get("tipo") or "")[:26] or c[-6:]
+            lineas.append("=== %s  (%d señales en el canal, van estas %d) ===" % (tipo.upper(), len(lista), len(ult)))
+            for i, x in enumerate(reversed(ult), 1):
+                lineas.append("  %2d. %s %s %s" % (i, x.get("sym"), x.get("tf"), x.get("dir", "")))
+                lineas.append("      %s · puntaje %s/10 %s" % (
+                    str(x.get("tipo", ""))[:46], x.get("score"), x.get("score_label") or ""))
+                e, sl, tp = x.get("entry"), x.get("sl"), x.get("tp")
+                if e and sl and tp:
+                    lineas.append("      entrada %.8g · objetivo %.8g · stop %.8g" % (e, tp, sl))
+            lineas.append("")
+        texto = "\n".join(lineas)
+        nombre = "rsi_3canales_%s.txt" % time.strftime("%Y%m%d_%H%M")
+        destino = os.path.join("/tmp", nombre)
+        open(destino, "w", encoding="utf-8").write(texto)
+        if token and canal and canal != "*":
+            pass
+        if token:
+            # el canal destino es el de Argos si no sabemos de dónde vino (lo pasa el plugin)
+            destino_canal = _CANAL_DESTINO or os.environ.get("RSI_CANAL", "")
+            if destino_canal:
+                cuerpo, tipo_ct = _multipart(
+                    {"content": "**Últimas 10 señales de cada canal del RSI** (%d en total)" % sum(len(v[-10:]) for _, v in orden)},
+                    {"files[0]": (nombre, open(destino, "rb").read(), "text/plain")})
+                req = urllib.request.Request("https://discord.com/api/v10/channels/%s/messages" % destino_canal,
+                                             data=cuerpo, method="POST",
+                                             headers={"Authorization": "Bot " + token, "Content-Type": tipo_ct,
+                                                      "User-Agent": "hermes-argos/1.0"})
+                try:
+                    urllib.request.urlopen(req, timeout=30)
+                    return ""
+                except Exception as e:                           # noqa: BLE001
+                    return "No pude subir el archivo: %s" % e
+        return texto
+
     ultimas = señales[-10:]
     cuales = "del canal" if canal and not filtro else ("filtro: %s" % filtro if filtro else "todas")
     lineas = ["ULTIMAS %d SEÑALES DEL BOT DE RSI (%s)" % (len(ultimas), cuales),
@@ -259,7 +309,12 @@ def respuesta(texto, canal=None, token=None):
     if t.startswith("!ath"):
         return _ath()
     if t.startswith("!rsi"):
-        return _rsi(canal=canal, args=t[4:].strip(), token=token)
+        arg = t[4:].strip()
+        if arg in ("todo", "todos", "3", "*", "canales", "todos los canales"):
+            global _CANAL_DESTINO
+            _CANAL_DESTINO = canal or ""
+            return _rsi(canal="*", args="", token=token)
+        return _rsi(canal=canal, args=arg, token=token)
     if t.startswith("!grupos"):
         return _grupos()
     if t.startswith("!wallets"):
