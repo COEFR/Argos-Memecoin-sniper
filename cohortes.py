@@ -257,15 +257,23 @@ def compras_de(mint, limite=TX_POR_LANZAMIENTO):
     sigs = WT.rpc("getSignaturesForAddress", [mint, {"limit": limite}]) or []
     anotar_creditos(10 * (1 + len(sigs)))      # cada getTransaction cuesta 10 créditos
     out = {}
-    for s in sigs:
-        if s.get("err"):
-            continue
+    # Las transacciones se bajan EN PARALELO. En serie era una llamada por transacción (hasta 40,
+    # ~0,3 s cada una) y una pasada de 8 tokens tardaba más de 5 minutos, más que el intervalo del
+    # cron: por eso las calls de cohorte llegaban tarde. Medido el 12/10.
+    from concurrent.futures import ThreadPoolExecutor
+
+    def _traer(sig):
+        if sig.get("err"):
+            return None
         try:
-            tx = WT.rpc("getTransaction", [s["signature"], {"maxSupportedTransactionVersion": WT.MAX_VERSION,
-                                                             "encoding": "jsonParsed"}])
+            return WT.rpc("getTransaction", [sig["signature"], {"maxSupportedTransactionVersion": WT.MAX_VERSION,
+                                                                "encoding": "jsonParsed"}])
         except Exception:
-            tx = None
-        time.sleep(0.03)
+            return None
+
+    with ThreadPoolExecutor(max_workers=10) as ex:
+        txs = list(ex.map(_traer, sigs))
+    for tx in txs:
         if not tx or not tx.get("meta") or tx["meta"].get("err"):
             continue
         meta = tx["meta"]
@@ -975,6 +983,19 @@ def informe():
         print("   juntar más días de cosecha para que aparezcan los que repiten)")
 
 
+def _preparar_token(t):
+    """Lo lento de un token joven: sus compras y el análisis. Pensado para correr en paralelo."""
+    try:
+        compras = compras_de(t["mint"])
+    except Exception:
+        return t, None, None
+    try:
+        ev = PA.analizar(PA.buscar_coin(t["mint"]), pedir=True)
+    except Exception:
+        ev = {}
+    return t, compras, ev
+
+
 def vigilar(max_tokens=8):
     """¿Entró algún cohorte conocido a un token joven? (el aviso con el ORIGEN adelante)"""
     d = _leer(COHORTES, None)
@@ -986,15 +1007,23 @@ def vigilar(max_tokens=8):
     except Exception:
         jovenes = []
     hallados = []
-    for t in jovenes[:max_tokens]:
-        compras = compras_de(t["mint"])
+    # Las llamadas caras (compras de la curva y análisis del token) se hacen EN PARALELO: medido el
+    # 12/10, la pasada en serie tardaba más de 5 minutos y el cron corre cada 6, así que se encimaban
+    # y la call llegaba tarde. Acá se bajan todos los tokens juntos y después se resuelve en serie
+    # (el orden importa para el aviso, y así no se saturan Discord ni la API).
+    from concurrent.futures import ThreadPoolExecutor
+    jovenes = jovenes[:max_tokens]
+    with ThreadPoolExecutor(max_workers=8) as ex:
+        preparados = list(ex.map(_preparar_token, jovenes))
+    for t, compras, ev in preparados:
+        if compras is None or ev is None:
+            continue
         for c in d["cohortes"]:
             dentro = sorted([w for w in c["wallets"] if w in compras],
                             key=lambda w: compras[w].get("ts") or 0)
             if len(dentro) < min(2, MIN_COHORTE):
                 continue
             origen = dentro[0]                      # el que entró primero de ese cohorte
-            ev = PA.analizar(PA.buscar_coin(t["mint"]), pedir=True)
             nota, motivos, etq = CD.puntuar({"n_wallets": len(dentro), "sol": sum(compras[w]["sol"] for w in dentro),
                                             "segundos": 0, "slots_iguales": 1, "frescas": 0,
                                             "conocidas": len(dentro), "compras_en_ventana": len(dentro)},

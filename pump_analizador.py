@@ -589,7 +589,10 @@ def descargar_imagen(url, base, max_mb=8):
     for u in candidatos:
         try:
             req = urllib.request.Request(u, headers={"User-Agent": UA, "Accept": "image/*,*/*"})
-            with urllib.request.urlopen(req, timeout=20) as r:
+            # Timeout CORTO a propósito: los gateways IPFS públicos bloquean IPs de datacenter y se
+            # quedan colgados hasta agotarlo (medido: una pasada de vigilancia tardaba más de 5 min por
+            # esto, y las calls llegaban tarde). Los que responden bien lo hacen en menos de 2 s.
+            with urllib.request.urlopen(req, timeout=4) as r:
                 datos = r.read(max_mb * 1024 * 1024)
             if len(datos) < 200:
                 continue
