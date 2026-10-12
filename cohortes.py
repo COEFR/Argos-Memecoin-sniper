@@ -271,7 +271,9 @@ def compras_de(mint, limite=TX_POR_LANZAMIENTO):
         except Exception:
             return None
 
-    with ThreadPoolExecutor(max_workers=10) as ex:
+    # 5 hilos (no 10) por decisión conservadora: el pico pasa de 80 a 40 pedidos simultáneos y
+    # sigue siendo varias veces más rápido que en serie.
+    with ThreadPoolExecutor(max_workers=5) as ex:
         txs = list(ex.map(_traer, sigs))
     for tx in txs:
         if not tx or not tx.get("meta") or tx["meta"].get("err"):
