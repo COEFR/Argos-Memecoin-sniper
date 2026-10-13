@@ -10,14 +10,33 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   ciclo:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      # 1. El código: vive en el repo público (sin datos adentro).
+      - name: código
+        uses: actions/checkout@v4
+
+      # 2. El estado: vive en el repo PRIVADO. Es lo que antes quedaba sólo en la VPS.
+      #    Con esto, Argos en Actions arranca con la memoria completa (historial de calls,
+      #    firmas vistas, lanzamientos cosechados) en vez de empezar de cero.
+      - name: estado
+        uses: actions/checkout@v4
+        with:
+          repository: COEFR/argos-datos
+          token: ${{ secrets.ESTADO_TOKEN }}
+          path: estado
+
+      - name: traer el estado al lugar donde el código lo busca
+        run: |
+          cp -f estado/*.json . 2>/dev/null || true
+          cp -f estado/*.txt . 2>/dev/null || true
+          echo "archivos de estado disponibles:"
+          ls -1 *.json 2>/dev/null | head -12
 
       - uses: actions/setup-python@v5
         with:
@@ -47,10 +66,15 @@ jobs:
       - name: ciclo
         run: python argos_run.py
 
-      - name: guardar estado
+      # 3. Guardar el estado de vuelta en el repo privado (así la próxima corrida arranca con memoria).
+      - name: guardar el estado
         run: |
+          cp -f *.json estado/ 2>/dev/null || true
+          cp -f *.txt estado/ 2>/dev/null || true
+          cd estado
           git config user.name COEFR
           git config user.email coefr@users.noreply.github.com
           git add -A
           git commit -m "estado $(date -u '+%Y-%m-%d %H:%M UTC')" || true
-          git pull --rebase --autostash origin main && git push
+          git pull --rebase --autostash origin main || true
+          git push || true
