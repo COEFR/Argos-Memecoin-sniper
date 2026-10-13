@@ -1,0 +1,62 @@
+name: comandos
+
+# Los comandos de texto del bot (!rsi · !ath · !profit · !tabla · !grupos) atendidos desde
+# GitHub Actions: no hace falta ninguna máquina encendida. Cada 5 minutos el bot lee los
+# mensajes nuevos de los canales, contesta y sube el archivo.
+#
+# Lo dispara el schedule de GitHub y, para que sea puntual, el mismo cron-job.org que ya
+# dispara Argos (una cuarta tarea apuntando a este workflow).
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: comandos
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  atender:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: cargar claves desde los secretos
+        run: |
+          mkdir -p ~/.hermes
+          cat > ~/.hermes/.env <<'FIN'
+          DISCORD_BOT_TOKEN=${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_HOME_CHANNEL=${{ secrets.DISCORD_HOME_CHANNEL }}
+          DISCORD_SIGNALS_CHANNEL=${{ secrets.DISCORD_SIGNALS_CHANNEL }}
+          DISCORD_WALLETS_CHANNEL=${{ secrets.DISCORD_WALLETS_CHANNEL }}
+          DISCORD_PUMP_CHANNEL=${{ secrets.DISCORD_PUMP_CHANNEL }}
+          DISCORD_ARGOS_CHANNEL=${{ secrets.DISCORD_ARGOS_CHANNEL }}
+          DISCORD_ARGOS_SEGUIR=${{ secrets.DISCORD_ARGOS_SEGUIR }}
+          DISCORD_ARGOS_LOTERIA=${{ secrets.DISCORD_ARGOS_LOTERIA }}
+          DISCORD_ARGOS_MEJORES=${{ secrets.DISCORD_ARGOS_MEJORES }}
+          DISCORD_RSI_CHANNELS=${{ secrets.DISCORD_RSI_CHANNELS }}
+          FIN
+          chmod 600 ~/.hermes/.env
+          echo "claves cargadas: $(wc -l < ~/.hermes/.env)"
+
+      - name: atender los comandos
+        run: python3 comando_discord.py
+
+      # Guarda lo que ya contestó: sin esto respondería lo mismo en cada pasada.
+      - name: guardar lo que ya se contestó
+        run: |
+          git config user.name COEFR
+          git config user.email coefr@users.noreply.github.com
+          git add -A
+          git commit -m "comandos $(date -u '+%Y-%m-%d %H:%M UTC')" || true
+          git pull --rebase --autostash origin main || true
+          git push || true
