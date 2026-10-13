@@ -160,7 +160,15 @@ def main():
         ap.print_help()
         return 0
 
-    est = json.load(open(ESTADO)) if os.path.exists(ESTADO) else {"procesados": []}
+    # Si el estado quedó ilegible (por ejemplo con marcadores de conflicto de git), se arranca de
+    # cero en vez de morir: antes esto rompía la tarea en cada pasada.
+    try:
+        est = json.load(open(ESTADO)) if os.path.exists(ESTADO) else {"procesados": []}
+        if not isinstance(est, dict) or "procesados" not in est:
+            est = {"procesados": []}
+    except Exception:
+        log("estado ilegible: arranco de cero")
+        est = {"procesados": []}
     cod, msgs = api(f"channels/{CANAL}/messages?limit=30", tok=tok)
     if cod != 200:
         log(f"no pude leer el canal: {cod} {msgs}")
