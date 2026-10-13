@@ -275,7 +275,9 @@ def compras_de(mint, limite=TX_POR_LANZAMIENTO):
     # sigue siendo varias veces más rápido que en serie.
     with ThreadPoolExecutor(max_workers=5) as ex:
         txs = list(ex.map(_traer, sigs))
-    for tx in txs:
+    # zip para conservar la firma original junto a su transacción: el cuerpo de abajo usa los dos
+    # (el "s" es la firma, de donde salen la hora y el slot). Sin esto fallaba con NameError.
+    for s, tx in zip(sigs, txs):
         if not tx or not tx.get("meta") or tx["meta"].get("err"):
             continue
         meta = tx["meta"]
