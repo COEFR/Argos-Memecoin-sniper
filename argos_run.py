@@ -14,7 +14,7 @@ import time
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 PY = sys.executable
-TOPE = 540  # segundos por tarea
+TOPE = 1200  # segundos por tarea (el workflow tiene 20 min; la vigilancia hoy tarda ~5-6)
 
 # (script, argumentos, cada N turnos de 5 min, fase, hora fija UTC o None)
 # La Action dispara en los minutos 0, 5, 10..., así que la cadencia se cuenta en turnos, no en minutos.
