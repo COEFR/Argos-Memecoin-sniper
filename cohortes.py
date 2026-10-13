@@ -1050,9 +1050,25 @@ def vigilar(max_tokens=8):
                 RC.registrar(ev["call"], ev)
             except Exception:
                 pass
-            PA.alertar_token(ev, "🕸️ COHORTE CONOCIDO ENTRANDO", canal=canal_argos())
             break
         time.sleep(0.2)
+
+    # Los avisos se mandan EN PARALELO (4 a la vez, con una pausa cada uno para no saturar Discord:
+    # los 429 de Discord son el otro límite y ya nos mordieron el 08/10). Antes se mandaban uno por
+    # uno dentro del bucle y, como cada aviso baja la imagen del token, la pasada se pasaba del tope
+    # de 9 minutos del lanzador y el workflow fallaba (medido el 13/10).
+    if hallados:
+        from concurrent.futures import ThreadPoolExecutor
+
+        def _avisar(e):
+            time.sleep(0.9)
+            try:
+                PA.alertar_token(e, "🕸️ COHORTE CONOCIDO ENTRANDO", canal=canal_argos())
+            except Exception as ex:                              # noqa: BLE001
+                log(f"  ! no pude avisar {e.get('simbolo')}: {str(ex)[:60]}")
+
+        with ThreadPoolExecutor(max_workers=4) as ex:
+            list(ex.map(_avisar, hallados))
     return hallados
 
 
