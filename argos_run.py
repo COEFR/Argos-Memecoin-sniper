@@ -23,7 +23,7 @@ TAREAS = [
     ("registro_calls.py",  ["--muestrear"], 1, 0, None),
     ("control_test.py",    ["--muestrear"], 1, 0, None),
     ("comando_discord.py", [], 1, 0, None),
-    ("cohortes.py",        ["--vigilar"], 2, 1, None),
+    ("cohortes.py",        ["--vigilar"], 1, 0, None),
     ("cohortes.py",        ["--cosechar", "20"], 3, 1, None),
     ("cohortes.py",        ["--clasificar"], 6, 2, None),
     ("registro_calls.py",  ["--evaluar"], 6, 3, None),

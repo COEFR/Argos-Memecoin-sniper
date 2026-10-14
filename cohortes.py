@@ -53,19 +53,51 @@ MIN_COHORTE = 2           # desde 2 wallets (era 3): primero aparecen "dúos" y 
 CREDITOS = os.path.join(AQUI, "cohortes_creditos.json")
 
 
-def anotar_creditos(n):
-    """Lleva el gasto del sistema nuevo (para avisar antes de quedarnos sin cupo)."""
+_CRED_PEND = 0          # créditos sin escribir (se acumulan en memoria)
+_CRED_TOTAL = None      # total del día, para devolverlo sin leer el archivo
+
+
+def anotar_creditos(n, forzar=False):
+    """Lleva el gasto del sistema nuevo (para avisar antes de quedarnos sin cupo).
+
+    OJO: se acumula EN MEMORIA y se escribe cada 500 créditos o al final de la pasada (con
+    `flush_creditos`). Antes hacía json.load + escritura con candado por CADA llamada, y como se
+    llama por cada transacción leída, una pasada de vigilancia con cientos de llamadas se pasaba
+    de los 5 minutos sólo en eso (medido el 14/10).
+    """
+    global _CRED_PEND, _CRED_TOTAL
+    _CRED_PEND += int(n)
+    if _CRED_TOTAL is None:
+        _CRED_TOTAL = _creditos_leer()
+    _CRED_TOTAL += int(n)
+    if forzar or _CRED_PEND >= 500:
+        flush_creditos()
+    return _CRED_TOTAL
+
+
+def _creditos_leer():
     hoy = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     try:
         d = json.load(open(CREDITOS))
         if d.get("dia") != hoy:
-            d = {"dia": hoy, "creditos": 0}
+            return 0
+        return int(d.get("creditos", 0))
     except Exception:
-        d = {"dia": hoy, "creditos": 0}
-    d["creditos"] = int(d.get("creditos", 0)) + n
-    import jsonio
-    jsonio.guardar(CREDITOS, d)
-    return d["creditos"]
+        return 0
+
+
+def flush_creditos():
+    """Escribe de una vez lo acumulado (lo llama el final de cada pasada)."""
+    global _CRED_PEND, _CRED_TOTAL
+    if not _CRED_PEND and _CRED_TOTAL is None:
+        return
+    hoy = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    try:
+        import jsonio
+        jsonio.guardar(CREDITOS, {"dia": hoy, "creditos": int(_CRED_TOTAL or 0)})
+    except Exception:
+        pass
+    _CRED_PEND = 0
 
 
 def log(m):
@@ -1155,27 +1187,41 @@ def vigilar_cartera(max_sigs=3, max_avisos=3):
     # mismas), así que ~170 wallets nunca se revisaban: los grupos 🟢 no tenían ni una compra suya en el
     # búfer y su canal quedaba mudo sin que se entendiera por qué. Ahora se leen TODAS; el cupo se
     # controla bajando las firmas por wallet (4 en vez de 6).
-    for w, c in list(indice.items()):
+    # Las LECTURAS van EN PARALELO (10 a la vez). Cada wallet cuesta 1 llamada al RPC y cada firma
+    # nueva otra: en serie eran ~600 llamadas y la pasada tardaba 150 segundos (medido el 14/10).
+    # El estado (est, buffer de compras) se sigue tocando EN SERIE después, con la misma lógica.
+    from concurrent.futures import ThreadPoolExecutor
+
+    def _leer_wallet(par):
+        w_, _c = par
         try:
-            sigs = WT.rpc("getSignaturesForAddress", [w, {"limit": max_sigs}]) or []
+            sigs_ = WT.rpc("getSignaturesForAddress", [w_, {"limit": max_sigs}]) or []
         except Exception:
+            return w_, None, []
+        anotar_creditos(1 + len(sigs_))
+        firmas_ = [s_["signature"] for s_ in sigs_]
+        vistas_ = est.get(w_)
+        if vistas_ is None:                # primera vez: sólo la línea base
+            return w_, firmas_, []
+        # Se REGISTRA la compra, no se avisa: el aviso sale cuando el grupo actúa COORDINADO.
+        compras_ = []
+        for s_ in reversed([s_ for s_ in sigs_ if s_["signature"] not in vistas_ and not s_.get("err")]):
+            try:
+                cp = compra_de_wallet(s_["signature"], w_)
+            except Exception:
+                cp = None
+            if cp:
+                compras_.append(cp)
+        return w_, firmas_, compras_
+
+    with ThreadPoolExecutor(max_workers=10) as ex:
+        leidos = list(ex.map(_leer_wallet, list(indice.items())))
+    for w, firmas, compras in leidos:
+        if firmas is None:
             continue
-        anotar_creditos(1 + len(sigs))
-        firmas = [s["signature"] for s in sigs]
-        vistas = est.get(w)
         est[w] = firmas
-        if vistas is None:                 # primera vez: sólo se toma la línea base
-            continue
-        # Se REGISTRA la compra, no se avisa todavía: avisar cada compra suelta de estas wallets es un
-        # río (10 wallets muy activas = hasta 160 avisos/hora, medido). El aviso sale cuando el grupo
-        # actúa COORDINADO (2+ miembros del mismo cohorte en el mismo token dentro de la ventana).
-        for s in reversed([s for s in sigs if s["signature"] not in vistas]):
-            if s.get("err"):
-                continue
-            compra = compra_de_wallet(s["signature"], w)
-            if compra:
-                anotar_compra(w, compra[0], compra[1])
-        time.sleep(0.05)
+        for mint, sol in compras:
+            anotar_compra(w, mint, sol)
     _guardar(EST_CARTERA, est)
     avisos = avisar_coincidencias(max_avisos)
     log(f"  cartera: {len(indice)} wallets vigiladas · avisos: {avisos}")
@@ -1425,6 +1471,7 @@ def main():
     if not any([a.cosechar, a.armar, a.informe, a.vigilar, a.clasificar, a.grupos, a.pagadores,
                 a.puntuar_wallets, a.wallets]):
         ap.print_help()
+    flush_creditos()          # escribe de una vez todo lo anotado en la pasada
     return 0
 
 
