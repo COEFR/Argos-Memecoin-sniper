@@ -194,11 +194,16 @@ def _procesar(canal, motor, msgs, vistos):
             # fórmulas legítimas de paper: "es importante destacar que" en una tesis no es jerga)
             gen = "academico" if ACADEMICAS.search(texto) else None
             nota_antes, reporte = escanear(texto, gen)
-            # El agente recibe las MÉTRICAS DEL DETECTOR (burstiness y repetición): es lo que
-            # de verdad se mide. Antes recibía el reporte del catálogo y por eso reescribía
-            # sin mejorar el ritmo (medido: bajaba de 0.320 a 0.286).
+            # 1) el agente recibe las MÉTRICAS que miran los detectores (burstiness y repetición)
+            #    y reescribe guiado por ellas, conservando todos los datos
             metricas = medir(texto)
             limpio = humanizar(texto, metricas)
+            # 2) pulido final con el diccionario (Humanizador 2): cambia palabras sueltas
+            #    que quedaron, sin tocar la estructura que ya mejoró el paso anterior
+            if limpio:
+                pulido = humanizar_reglas(limpio)
+                if pulido and len(pulido) > len(limpio) * 0.6:
+                    limpio = pulido
             b_antes = _burstiness(texto)
             b_despues = _burstiness(limpio) if limpio else None
             # FORMATO: el texto limpio va primero y en texto plano (se copia de un toque);
