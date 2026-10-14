@@ -26,6 +26,7 @@ MIO = os.environ.get("DISCORD_BOT_ID") or ""
 CANAL2 = os.environ.get("DISCORD_HUMANIZAR2_CHANNEL") or ""
 # Los dos motores conviven: el 1 usa el agente (modelo) y el 2 es por reglas (port de Humanize-AI).
 MOTOR2 = os.path.expanduser(os.path.join(BASE, "humanizar2.py"))
+MEDIDOR = os.path.expanduser("~/.hermes/skills/humanizer-es/scripts/reescribir.py")
 
 
 def log(m):
@@ -63,6 +64,25 @@ ACADEMICAS = re.compile(
     re.IGNORECASE)
 
 
+def _burstiness(texto):
+    """Variación del largo de las oraciones: la métrica que más pesa en los detectores."""
+    import re as _re
+    import statistics as _st
+    o = [x for x in _re.split(r"(?<=[.!?])\s+", texto) if len(x.split()) >= 3]
+    if len(o) < 3:
+        return None
+    L = [len(x.split()) for x in o]
+    return _st.pstdev(L) / _st.mean(L)
+
+
+def medir(texto):
+    """Métricas que miran los detectores (burstiness y repetición), para guiar la reescritura."""
+    r = subprocess.run([sys.executable, MEDIDOR, *[texto]] if False else
+                       [sys.executable, MEDIDOR, "--texto", texto],
+                       capture_output=True, text=True, timeout=60)
+    return r.stdout.strip()
+
+
 def escanear(texto, genero=None):
     """Devuelve (puntaje, texto del reporte). El puntaje se usa para el 'antes → después'."""
     try:
@@ -92,11 +112,22 @@ def humanizar_reglas(texto):
 def humanizar(entrada, reporte):
     """Le pide al agente la versión limpia, con el reporte del scanner como guía."""
     prompt = (
-        "Actuá como el skill humanizer-es: sos editor de castellano y quitás las marcas de IA.\n"
-        "Regla: borrá, no agregues. No inventes datos, no cambies el sentido, no agregues voz.\n\n"
-        f"Reporte del scanner:\n{reporte}\n\n"
-        f"Texto a limpiar:\n{entrada}\n\n"
-        "Devolvé SOLO la versión limpia, sin comentarios ni explicaciones."
+        "Sos editor de castellano. REESCRIBÍ el texto desde las ideas, sin inventar nada.\n"
+        "Un detector de IA mide sobre todo la variación del largo de las oraciones.\n\n"
+        "REGLAS DE FORMA:\n"
+        "1. Alterná frases CORTAS (4 a 8 palabras) con LARGAS (18 a 28). Nunca dos seguidas parecidas.\n"
+        "2. Partí las oraciones con muchas subordinadas en dos o tres.\n"
+        "3. Variá el arranque: varias oraciones empiezan con algo que no sea el sujeto.\n"
+        "4. Sacá los conectores de relleno (asimismo, en consecuencia, por otro lado, es importante destacar).\n"
+        "5. No repitas una palabra de más de 4 letras en el mismo párrafo si hay sinónimo.\n\n"
+        "REGLAS DE CONTENIDO (tienen prioridad sobre las de forma):\n"
+        "6. PROHIBIDO agregar datos, nombres, cifras, adjetivos de valoración o ideas que no estén en el original.\n"
+        "7. PROHIBIDO cambiar referencias: si dice \"héroes y patriotas\", no lo vuelvas \"hombres y mujeres\".\n"
+        "8. Conservá TODOS los datos: fechas, lugares, nombres propios, cifras.\n"
+        "9. Si dudás entre sonar mejor o ser fiel, SÉ FIEL: dejá la frase casi como estaba.\n\n"
+        f"Reporte del medidor (burstiness es lo que más pesa):\n{reporte}\n\n"
+        f"Texto a reescribir:\n{entrada}\n\n"
+        "Devolvé SOLO el texto reescrito, sin comentarios ni listas."
     )
     for exe in ("hermes", os.path.expanduser("~/.local/bin/hermes"),
                 os.path.expanduser("~/.hermes/bin/hermes")):
@@ -132,7 +163,7 @@ def main():
     hubo = False
     for canal, motor in pares:
         try:
-            msgs = _req("GET", f"/channels/{canal}/messages?limit=10")
+            msgs = _req("GET", f"/channels/{canal}/messages?limit=3")
         except urllib.error.HTTPError as e:
             log(f"! no pude leer el canal {motor}: HTTP {e.code}")
             continue
@@ -145,9 +176,9 @@ def main():
 
 
 def _procesar(canal, motor, msgs, vistos):
-    nuevos = [m for m in reversed(msgs)
+    nuevos = [m for m in msgs
               if m.get("id") not in vistos
-              and not m.get("author", {}).get("bot")
+              and (os.environ.get("HUMANIZAR_FORZAR") or not m.get("author", {}).get("bot"))
               and m.get("content", "").strip()]
     if not nuevos:
         return False
@@ -163,15 +194,21 @@ def _procesar(canal, motor, msgs, vistos):
             # fórmulas legítimas de paper: "es importante destacar que" en una tesis no es jerga)
             gen = "academico" if ACADEMICAS.search(texto) else None
             nota_antes, reporte = escanear(texto, gen)
-            limpio = humanizar(texto, reporte)
-            nota_despues, _ = escanear(limpio, gen) if limpio else (None, "")
+            # El agente recibe las MÉTRICAS DEL DETECTOR (burstiness y repetición): es lo que
+            # de verdad se mide. Antes recibía el reporte del catálogo y por eso reescribía
+            # sin mejorar el ritmo (medido: bajaba de 0.320 a 0.286).
+            metricas = medir(texto)
+            limpio = humanizar(texto, metricas)
+            b_antes = _burstiness(texto)
+            b_despues = _burstiness(limpio) if limpio else None
             # FORMATO: el texto limpio va primero y en texto plano (se copia de un toque);
             # el diagnóstico queda abajo, en una línea y en cursiva, para no competir con el texto.
             duras = reporte.count("⛔")
             blandos = reporte.count("• ")
             partes = []
-            if nota_antes is not None and nota_despues is not None:
-                partes.append(f"{nota_antes}/100 → **{nota_despues}/100**")
+            if b_antes is not None and b_despues is not None:
+                flecha = "↑" if b_despues > b_antes else ("=" if abs(b_despues-b_antes) < 0.02 else "↓")
+                partes.append(f"ritmo {b_antes:.2f} {flecha} **{b_despues:.2f}** (objetivo 0.45)")
             elif nota_despues is not None:
                 partes.append(f"**{nota_despues}/100**")
             if duras:
