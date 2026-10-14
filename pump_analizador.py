@@ -586,25 +586,32 @@ def descargar_imagen(url, base, max_mb=8):
             if x and x not in vistos:
                 vistos.add(x)
                 candidatos.append(x)
-    for u in candidatos:
+    # Las candidatas se prueban EN PARALELO y se toma la primera válida en orden de preferencia.
+    # Antes iban una por una y, como los gateways IPFS públicos bloquean las IPs de datacenter, cada
+    # intento se comía el timeout completo: medido el 14/10, eso eran 20-40 s POR AVISO, y con 8
+    # avisos la pasada se pasaba del tope (por eso las calls de grupo llegaban tarde).
+    from concurrent.futures import ThreadPoolExecutor
+
+    def _bajar(u):
         try:
             req = urllib.request.Request(u, headers={"User-Agent": UA, "Accept": "image/*,*/*"})
-            # Timeout CORTO a propósito: los gateways IPFS públicos bloquean IPs de datacenter y se
-            # quedan colgados hasta agotarlo (medido: una pasada de vigilancia tardaba más de 5 min por
-            # esto, y las calls llegaban tarde). Los que responden bien lo hacen en menos de 2 s.
-            with urllib.request.urlopen(req, timeout=4) as r:
-                datos = r.read(max_mb * 1024 * 1024)
-            if len(datos) < 200:
-                continue
-            if hashlib.md5(datos).hexdigest() in PLACEHOLDER_MD5:
-                continue                      # es la imagen genérica de pump.fun: sin arte real
-            tipo, ext = _tipo_imagen(datos)
-            destino = f"{base}.{ext}"
-            with open(destino, "wb") as fh:
-                fh.write(datos)
-            return destino
+            with urllib.request.urlopen(req, timeout=3) as r:
+                return u, r.read(max_mb * 1024 * 1024)
         except Exception:
+            return u, None
+
+    with ThreadPoolExecutor(max_workers=6) as ex:
+        traidas = list(ex.map(_bajar, candidatos[:10]))
+    for _u, datos in traidas:
+        if not datos or len(datos) < 200:
             continue
+        if hashlib.md5(datos).hexdigest() in PLACEHOLDER_MD5:
+            continue                          # es la imagen genérica de pump.fun: sin arte real
+        _tipo, ext = _tipo_imagen(datos)
+        destino = f"{base}.{ext}"
+        with open(destino, "wb") as fh:
+            fh.write(datos)
+        return destino
     log("  ! no pude bajar la imagen en ningún gateway")
     return None
 
