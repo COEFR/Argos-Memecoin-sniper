@@ -164,6 +164,14 @@ def avisar(w, sig, perfil, token_mint, sol, pedido_ts):
     except Exception:
         pass
     PA.alertar_token(ev, "⚡ WALLET COPIABLE COMPRANDO", canal=canal)
+    # EN VIVO, EN SEGUNDOS: se registra la compra en el búfer de cohortes y se mira EN EL ACTO si otro
+    # miembro del mismo grupo compró el mismo token. Antes esta compra sólo entraba al búfer por la
+    # patrulla (cada 2 min), así que la call de GRUPO nacía del sondeo; ahora nace del aviso en vivo.
+    try:
+        CO.anotar_compra(w, token_mint, sol)
+        CO.avisar_coincidencias(max_avisos=2)
+    except Exception as e:
+        log(f"  ! no pude revisar las coincidencias del grupo: {e}")
 
 
 async def servicio(probar=False, segundos=0):
