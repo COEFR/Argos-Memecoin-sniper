@@ -9,6 +9,7 @@ se ocupa del transporte (leer el canal, responder) y del scanner.
 """
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -55,13 +56,25 @@ def _guardar_vistos(s):
         pass
 
 
-def escanear(texto):
+ACADEMICAS = re.compile(
+    r"(et al\.|\(20\d\d\)|seg[úu]n (los|el) (autores|estudio)|"
+    r"investigaci[óo]n|metodolog[íi]a|hip[óo]tesis|marco te[óo]rico|"
+    r"tesis|universidad|objetivo general|referencias bibliogr[áa]ficas)",
+    re.IGNORECASE)
+
+
+def escanear(texto, genero=None):
+    """Devuelve (puntaje, texto del reporte). El puntaje se usa para el 'antes → después'."""
     try:
-        r = subprocess.run([sys.executable, SKILL, "--texto", texto],
-                           capture_output=True, text=True, timeout=60)
-        return r.stdout.strip()
+        args = [sys.executable, SKILL, "--texto", texto]
+        if genero:
+            args += ["--genero", genero]
+        r = subprocess.run(args, capture_output=True, text=True, timeout=60)
+        salida = r.stdout.strip()
+        m = re.search(r"LIMPIEZA:\s*(\d+)/100", salida)
+        return (int(m.group(1)) if m else None), salida
     except Exception as e:
-        return f"(no pude escanear: {e})"
+        return None, f"(no pude escanear: {e})"
 
 
 def humanizar_reglas(texto):
@@ -146,9 +159,27 @@ def _procesar(canal, motor, msgs, vistos):
             limpio = humanizar_reglas(texto)
             texto_final = limpio
         else:
-            reporte = escanear(texto)
+            # si parece texto de investigación, se escanea en modo académico (no marca
+            # fórmulas legítimas de paper: "es importante destacar que" en una tesis no es jerga)
+            gen = "academico" if ACADEMICAS.search(texto) else None
+            nota_antes, reporte = escanear(texto, gen)
             limpio = humanizar(texto, reporte)
-            texto_final = "**🧹 Humanizador 1**\n```\n" + reporte[:900] + "\n```\n" + limpio
+            nota_despues, _ = escanear(limpio, gen) if limpio else (None, "")
+            # FORMATO: el texto limpio va primero y en texto plano (se copia de un toque);
+            # el diagnóstico queda abajo, en una línea y en cursiva, para no competir con el texto.
+            duras = reporte.count("⛔")
+            blandos = reporte.count("• ")
+            partes = []
+            if nota_antes is not None and nota_despues is not None:
+                partes.append(f"{nota_antes}/100 → **{nota_despues}/100**")
+            elif nota_despues is not None:
+                partes.append(f"**{nota_despues}/100**")
+            if duras:
+                partes.append(f"{duras} prohibición{'es' if duras > 1 else ''}")
+            if blandos:
+                partes.append(f"{blandos} marcador{'es' if blandos > 1 else ''}")
+            pie = " · ".join(partes)
+            texto_final = limpio + ("\n\n" + pie if pie else "")
         hubo = True
         if motor == "1" and not limpio:
             texto_final = "**🧹 Humanizador 1**\n(no pude editar: el agente no respondió)"
