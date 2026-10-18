@@ -164,7 +164,21 @@ Infraestructura:
 | `comando_discord.py` | comandos de chat del sistema |
 | `canal_wallets.py` | atención automática del canal de auditoría |
 | `jsonio.py` | escritura serializada con `flock` para los cuatro procesos concurrentes |
+| `ops/guardia_memoria.py` | vigilancia de memoria: avisa y corta jobs antes de que el kernel mate el gateway |
+| `ops/crontab-con-limites.txt` | líneas de cron con `flock`, `timeout` y `prlimit` |
+| `ops/hermes-gateway-oom.conf` | drop-in de systemd con `OOMScoreAdjust=-500` para el gateway |
+| `docs/incidente-oom-2026-10-18.md` | registro del incidente de memoria y de sus límites |
 | `NOTAS.md` | registro completo de las mediciones, incluidos los resultados negativos |
+
+## Límites de recursos
+
+Los jobs de cron tardan más que su intervalo, así que sin control se apilan. El 18 de octubre de 2026 eso
+terminó en 84 procesos simultáneos, load 42, swap al 100 % y el gateway muerto por el OOM killer.
+
+Cada job pesado corre ahora con `flock -n` (un lock propio), `timeout` de 600 a 900 segundos y
+`prlimit --as=1.5 GiB`; el gateway lleva `OOMScoreAdjust=-500` para no ser el primero en la lista del
+kernel, y una guardia revisa la memoria cada 3 minutos. Detalle y evidencia en
+[`docs/incidente-oom-2026-10-18.md`](docs/incidente-oom-2026-10-18.md).
 
 ## Criterios fijos
 

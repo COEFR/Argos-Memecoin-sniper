@@ -464,3 +464,13 @@ coordinadas (105-112 tokens con co-compra por pasada). Eran cuatro fallas de PLO
 
 **Lección de método:** verificar el FINAL del circuito (el mensaje que llega al canal), no el medio
 (el log que dice "COORDINADO"). El sistema detectaba bien y el aviso no salía.
+
+## 2026-10-18 · Límites de cron tras el OOM (incidente 14-18 oct)
+
+- Los 9 jobs pesados corren con `flock -n` (lock propio por job) + `timeout` (600-900 s) + `prlimit --as=1572864000`.
+- Gateway protegido con `OOMScoreAdjust=-500` (drop-in en `~/.config/systemd/user/hermes-gateway.service.d/oom.conf`).
+  Antes corría en `+200` y el kernel lo mataba antes que a los jobs.
+- Guardia `~/.hermes/scripts/guardia_memoria.py` cada 3 min: avisa <600 MB, corta jobs <350 MB.
+- Backups del crontab: `~/crontab_backup_2026-10-18.txt` (original) y `~/crontab_final_2026-10-18.txt` (con límites).
+- Pendiente: reinicio del VPS por actualizaciones de kernel (19 updates, kernel 7.0.0-38). Ya no hace falta
+  para que el crontab aplique: los límites están activos y sobreviven al reinicio.

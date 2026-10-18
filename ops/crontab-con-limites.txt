@@ -1,0 +1,15 @@
+# Líneas de cron con límites de recursos (crontab del usuario ubuntu, 18 oct 2026).
+# Cada job: flock -n (un lock propio) -> timeout -> prlimit --as=1.5 GiB -> python3.
+# Un lock por job: si la copia anterior sigue corriendo, la nueva sale con código 1 sin hacer nada.
+# Ajustar rutas si el proyecto no vive en ~/.hermes/data/memecoins.
+
+*/5 * * * * cd $HOME/.hermes/data/memecoins && /usr/bin/flock -n /tmp/hermes-canal.lock /usr/bin/timeout 600 /usr/bin/prlimit --as=1572864000 -- /usr/bin/python3 canal_wallets.py --una-pasada --tx 25 --max-red 3 >> logs/cron.log 2>&1
+*/30 * * * * cd $HOME/.hermes/data/memecoins && /usr/bin/flock -n /tmp/hermes-evaluar.lock /usr/bin/timeout 900 /usr/bin/prlimit --as=1572864000 -- /usr/bin/python3 registro_calls.py --evaluar >> logs/cron.log 2>&1
+*/5 * * * * cd $HOME/.hermes/data/memecoins && /usr/bin/flock -n /tmp/hermes-muestrear.lock /usr/bin/timeout 900 /usr/bin/prlimit --as=1572864000 -- /usr/bin/python3 registro_calls.py --muestrear >> logs/cron.log 2>&1
+0 * * * * cd $HOME/.hermes/data/memecoins && /usr/bin/flock -n /tmp/hermes-consumo.lock /usr/bin/timeout 600 /usr/bin/prlimit --as=1572864000 -- /usr/bin/python3 consumo.py --cron >> logs/cron.log 2>&1
+*/5 * * * * cd $HOME/.hermes/data/memecoins && /usr/bin/flock -n /tmp/hermes-vigilar.lock /usr/bin/timeout 900 /usr/bin/prlimit --as=1572864000 -- /usr/bin/python3 cohortes.py --vigilar >> logs/cron.log 2>&1
+*/15 * * * * cd $HOME/.hermes/data/memecoins && /usr/bin/flock -n /tmp/hermes-cosechar.lock /usr/bin/timeout 900 /usr/bin/prlimit --as=1572864000 -- /usr/bin/python3 cohortes.py --cosechar 20 >> logs/cron.log 2>&1
+*/30 * * * * cd $HOME/.hermes/data/memecoins && /usr/bin/flock -n /tmp/hermes-clasificar.lock /usr/bin/timeout 900 /usr/bin/prlimit --as=1572864000 -- /usr/bin/python3 cohortes.py --clasificar >> logs/cron.log 2>&1
+*/5 * * * * cd $HOME/.hermes/data/memecoins && /usr/bin/flock -n /tmp/hermes-control.lock /usr/bin/timeout 600 /usr/bin/prlimit --as=1572864000 -- /usr/bin/python3 control_test.py --muestrear >> logs/cron.log 2>&1
+*/10 * * * * cd $HOME/.hermes/data/memecoins && /usr/bin/flock -n /tmp/hermes-ath.lock /usr/bin/timeout 600 /usr/bin/prlimit --as=1572864000 -- /usr/bin/python3 ath_server.py --tope 12 >> logs/ath.log 2>&1
+*/3 * * * * /usr/bin/python3 ~/.hermes/scripts/guardia_memoria.py --cron >> ~/.hermes/logs/guardia_memoria.log 2>&1
